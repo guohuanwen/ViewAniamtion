@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.view.button.MoveButton;
+import com.bcgtgjyb.test.mylibrary.MoveButton;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -17,7 +17,14 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         moveButton=(MoveButton)findViewById(R.id.move_button);
+        //是否自由移动
         moveButton.setIsMove(true);
+        //设置自由移动坐标数量
+        moveButton.setCoordinateNumber(10);
+        //设置自由运动范围
+        moveButton.setMoveScope(30);
+        //设置动画持续时间，改变速度
+        moveButton.setMoveVelocity(1500);
     }
 
 
