@@ -23,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
         moveButton.setCoordinateNumber(10);
         //设置自由运动范围
         moveButton.setMoveScope(30);
-        //设置动画持续时间，改变速度
+        //设置动画持续时间，改变速度（测试在联想A390t（android4.0.3）上速度无法设置）
         moveButton.setMoveVelocity(1500);
     }
 
