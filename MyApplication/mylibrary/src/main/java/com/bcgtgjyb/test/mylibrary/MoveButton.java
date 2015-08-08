@@ -1,4 +1,4 @@
-package com.view.button;
+package com.bcgtgjyb.test.mylibrary;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -18,6 +18,10 @@ import java.util.List;
 public class MoveButton extends Button {
     private Context context;
     /**
+     * 运动速度
+     */
+    private long moveVelocity=1500;
+    /**
      * 自由运动范围
      */
     private int moveScope=30;
@@ -34,6 +38,9 @@ public class MoveButton extends Button {
         this.isMoved=param;
     }
 
+    public void setMoveVelocity(int moveVelocity) {
+        this.moveVelocity = moveVelocity;
+    }
 
     public void setMoveScope(int moveScope) {
         this.moveScope = moveScope;
@@ -63,8 +70,8 @@ public class MoveButton extends Button {
         setAnimation();
     }
 
+
     /**
-     * 外部调用
      * 为button设置运动动画
      */
     private void setAnimation(){
@@ -109,7 +116,8 @@ public class MoveButton extends Button {
             y = (float) listy.get(i);
             x = (float) listx.get(i);
             AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(1500);
+            //持续时间
+            animatorSet.setDuration(moveVelocity);
             Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
             animatorSet.playTogether(//
                     ObjectAnimator.ofFloat(button,"translationX",x), //
