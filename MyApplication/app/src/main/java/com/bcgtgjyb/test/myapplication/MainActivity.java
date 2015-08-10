@@ -4,27 +4,28 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
-import com.bcgtgjyb.test.mylibrary.MoveButton;
+import com.bcgtgjyb.test.mylibrary.MoveAnimation;
 
 
 public class MainActivity extends ActionBarActivity {
-
-
-    private MoveButton moveButton;
+    private Button button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        moveButton=(MoveButton)findViewById(R.id.move_button);
+        button=(Button)findViewById(R.id.move_button);
+        MoveAnimation moveAnimation=new MoveAnimation(button);
+        moveAnimation.setRandomAnimation(true);
         //是否自由移动
-        moveButton.setIsMove(true);
+//        moveButton.setIsMove(true);
         //设置自由移动坐标数量
-        moveButton.setCoordinateNumber(10);
+//        moveButton.setCoordinateNumber(10);
         //设置自由运动范围
-        moveButton.setMoveScope(30);
+//        moveButton.setMoveScope(30);
         //设置动画持续时间，改变速度（测试在联想A390t（android4.0.3）上速度无法设置）
-        moveButton.setMoveVelocity(1500);
+//        moveButton.setMoveVelocity(1500);
     }
 
 
