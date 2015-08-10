@@ -32,6 +32,7 @@ public class MoveAnimation {
     private MoveAnimation(){
 
     }
+
     public MoveAnimation(View view){
         this.view=view;
     }
@@ -42,7 +43,7 @@ public class MoveAnimation {
         if(param) {
             float myX = view.getX();
             float myY = view.getY();
-            List list = getDate(coordinateNumber);
+            List list = getRandomDate(coordinateNumber);
             setButtonAnimation(view, (List) list.get(0), (List) list.get(1));
         }
     }
@@ -129,7 +130,7 @@ public class MoveAnimation {
      * @param param
      * @return
      */
-    private List<List> getDate(int param) {
+    private List<List> getRandomDate(int param) {
         List x = new ArrayList<Object>();
         List y = new ArrayList<Object>();
         float m;
@@ -160,6 +161,15 @@ public class MoveAnimation {
         re.add(x);
         re.add(y);
         return re;
+    }
+
+
+    private List<List<Long>> getCurveData(long[] start,long[] end,long[] arc){
+        List listX=new ArrayList<Long>();
+        List listY=new ArrayList<Long>();
+
+
+        return null;
     }
 
 
