@@ -1,2 +1,2 @@
-# MoveButton
-自由移动的Button
+# MoveView
+自由移动的View
