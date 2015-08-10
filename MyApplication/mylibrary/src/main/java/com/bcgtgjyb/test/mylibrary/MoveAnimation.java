@@ -163,12 +163,46 @@ public class MoveAnimation {
         return re;
     }
 
-
-    private List<List<Long>> getCurveData(long[] start,long[] end,long[] arc){
+    /**
+     * 获取曲线数据
+     * @param start
+     * @param end
+     * @param arc
+     * @param direction
+     * @return
+     */
+    private List<List<Long>> getCurveData(long[] start,long[] end,long arc,int direction){
         List listX=new ArrayList<Long>();
         List listY=new ArrayList<Long>();
+        //计算都是用的matlab，有需要都可以学习一下
 
+        //起始点坐标
+        long x1=start[0];
+        long y1=end[0];
+        //结束点坐标
+        long x2=start[1];
+        long y2=end[1];
 
+        long x3,y3;
+        if(direction==0){
+             x3=-(2*y1*(y1/2 + y2/2 + x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) - x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - 2*y2*(y1/2 + y2/2 + x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) - x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - x1^2 + x2^2 - y1^2 + y2^2)/(2*x1 - 2*x2);
+             y3=y1/2 + y2/2 + x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) - x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2);
+        }else{
+             x3=-(2*y1*(y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - 2*y2*(y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - x1^2 + x2^2 - y1^2 + y2^2)/(2*x1 - 2*x2);
+             y3=y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2);
+        }
+        //三点求圆的方程
+        long a,b,c;
+        a=-(x1^2*y2 - x1^2*y3 - x2^2*y1 + x2^2*y3 + x3^2*y1 - x3^2*y2 + y1^2*y2 - y1^2*y3 - y1*y2^2 + y1*y3^2 + y2^2*y3 - y2*y3^2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
+        b=-(x1^2*x3 - x1^2*x2 + x1*x2^2 - x1*x3^2 + x1*y2^2 - x1*y3^2 - x2^2*x3 + x2*x3^2 - x2*y1^2 + x2*y3^2 + x3*y1^2 - x3*y2^2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
+        c=(x1^2*x3*y2 - x1^2*x2*y3 + x1*x2^2*y3 - x1*x3^2*y2 + x1*y2^2*y3 - x1*y2*y3^2 - x2^2*x3*y1 + x2*x3^2*y1 - x2*y1^2*y3 + x2*y1*y3^2 + x3*y1^2*y2 - x3*y1*y2^2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
+
+        //偏移坐标
+        long x=0;
+        long yy1=- b/2 - (b^2 - 4*x^2 - 4*a*x - 4*c)^(1/2)/2;
+        long yy2=(b^2 - 4*x^2 - 4*a*x - 4*c)^(1/2)/2 - b/2;
+//        if ()
+//        long y=;
         return null;
     }
 
