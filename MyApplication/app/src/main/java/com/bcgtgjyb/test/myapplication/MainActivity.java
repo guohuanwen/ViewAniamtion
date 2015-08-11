@@ -17,7 +17,8 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.move_button);
         MoveAnimation moveAnimation=new MoveAnimation(button);
-        moveAnimation.setRandomAnimation(true);
+//        moveAnimation.setRandomAnimation(true);
+        moveAnimation.setCurveMove(new float[]{0,0},new float[]{200,200},100,0);
         //是否自由移动
 //        moveButton.setIsMove(true);
         //设置自由移动坐标数量
