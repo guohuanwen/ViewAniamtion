@@ -1,13 +1,14 @@
 package com.bcgtgjyb.test.mylibrary;
 
 
+import android.location.Location;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
-
+import android.view.WindowManager;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,19 +17,27 @@ import java.util.Random;
  * Created by Administrator on 2015/8/10.
  */
 public class MoveAnimation {
+    boolean moveBoundary=false;
+    private String TAG="MoveAnimation";
     private View view;
     /**
-     * ÔË¶¯ËÙ¶È
+     * è¿åŠ¨é€Ÿåº¦
      */
-    private long moveVelocity=50;
+    private int moveVelocity=20;
     /**
-     * ×ÔÓÉÔË¶¯·¶Î§
+     * è‡ªç”±è¿åŠ¨èŒƒå›´
      */
     private int moveScope=30;
     /**
-     * Ëæ»úµãµÄ¸öÊı
+     * éšæœºç‚¹çš„ä¸ªæ•°
      */
     private int coordinateNumber=10;
+    //å±å¹•å®½é«˜
+    private int windowsWight=0;
+    private int windowsHeight=0;
+
+    private float viewFourCoordinate[]={0,0,0,0,0,0,0,0};
+
     private MoveAnimation(){
 
     }
@@ -38,20 +47,32 @@ public class MoveAnimation {
     }
 
 
-
+    /**
+     * set view random move
+     * @param param
+     */
     public void setRandomAnimation(boolean param){
         if(param) {
-            float myX = view.getX();
-            float myY = view.getY();
+            int[] location=new int[2];
+            view.getLocationOnScreen(location);
+            float myX = location[0];
+            float myY = location[1];
             List list = getRandomDate(coordinateNumber);
-            setViewAnimation(view, (List) list.get(0), (List) list.get(1));
+            setViewAnimationCirculate(view, (List) list.get(0), (List) list.get(1));
         }
     }
 
-    public void setCurveMove(float[] start,float[] end,int arc,int direction){
+    /**
+     * set view curve move
+     * @param end
+     * @param arc
+     * @param direction
+     */
+    public void setCurveMove(float[] end,int arc,int direction){
         if(true){
-            List list=getCurveData(start,end,arc,direction);
-            setViewAnimation(view, (List) list.get(0), (List) list.get(1));
+            float[] start={0,0};
+            List list=getCurveData(start, end, arc, direction);
+            setViewAnimationReturn(view, (List) list.get(0), (List) list.get(1));
         }
     }
     /**
@@ -73,27 +94,27 @@ public class MoveAnimation {
     }
 
     /**
-     * make view move to the coordinates which is in Listx and Listy
+     * make view move to the coordinates which is in Listx and Listy,and return original coordinate !then Circulate like this
      * @param view
      * @param listx
      * @param listy
      */
-    private void setViewAnimation(final View view, List listx, List listy) {
+    private void setViewAnimationCirculate(final View view, List listx, List listy) {
         List animationList = new ArrayList<Animator>();
         AnimatorSet myAnimation=new AnimatorSet();
         double x=0;
         double y;
         Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
         if(listx.size()==0){
-            Log.i("MoveAnimation","setViewAnimation:"+"listÎª¿Õ");
+            Log.i("MoveAnimation","setViewAnimation:"+"listä¸ºç©º");
             return ;
         }
         for (int i = 0; i < listx.size(); i++) {
             y = (double) listy.get(i);
             x = (double) listx.get(i);
-
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
             AnimatorSet animatorSet = new AnimatorSet();
-            //³ÖĞøÊ±¼ä
+            //æŒç»­æ—¶é—´
 //            animatorSet.setDuration(moveVelocity);
             Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
             animatorSet.playTogether(//
@@ -138,8 +159,151 @@ public class MoveAnimation {
     }
 
     /**
-     * Ä£ÄâËæ»úÔË¶¯£¬·µ»ØÔË¶¯×ø±ê
-     * ÒÔ³õÊ¼Î»ÖÃÎªÖĞĞÄ£¬ÒÔ¶¨ÖµÎª°ë¾¶×öÔ²£¬ÔÚÔ²ÄÚÉú³ÉËæ»úÊı£¬·µ»ØÒ»´®Ëæ¼´Êı£¬×îºóÒ»¸öÎª³õÊ¼Î»ÖÃ
+     * set view move to the coordinate,no return
+     * @param view
+     * @param listx
+     * @param listy
+     */
+    private void setViewAnimationOnce(final View view, List listx, List listy) {
+        List animationList = new ArrayList<Animator>();
+        AnimatorSet myAnimation=new AnimatorSet();
+        double x=0;
+        double y;
+        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
+        if(listx.size()==0){
+            Log.i("MoveAnimation","setViewAnimation:"+"listä¸ºç©º");
+            return ;
+        }
+        for (int i = 0; i < listx.size(); i++) {
+            y = (double) listy.get(i);
+            x = (double) listx.get(i);
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
+            AnimatorSet animatorSet = new AnimatorSet();
+            //æŒç»­æ—¶é—´
+//            animatorSet.setDuration(moveVelocity);
+            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
+                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
+            animationList.add(animatorSet);
+
+        }
+        myAnimation.playSequentially(animationList);
+        myAnimation.setDuration(moveVelocity);
+        myAnimation.setTarget(view);
+
+
+        myAnimation.addListener(new Animator.AnimatorListener() {
+            private boolean mCanceled;
+
+            public void onAnimationStart(Animator animation) {
+                mCanceled = false;
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!mCanceled) {
+//                    animation.start();
+                }
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCanceled = true;
+            }
+        });
+        myAnimation.start();
+
+    }
+
+    /**
+     * set view move to the coordinate and return the original coordinate
+     * @param view
+     * @param listx
+     * @param listy
+     */
+    private void setViewAnimationReturn(final View view, List listx, List listy) {
+        List animationList = new ArrayList<Animator>();
+        AnimatorSet myAnimation=new AnimatorSet();
+        double x=0;
+        double y;
+        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
+        if(listx.size()==0){
+            Log.i("MoveAnimation","setViewAnimation:"+"listä¸ºç©º");
+            return ;
+        }
+        for (int i = 0; i < listx.size(); i++) {
+            y = (double) listy.get(i);
+            x = (double) listx.get(i);
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
+            AnimatorSet animatorSet = new AnimatorSet();
+            //æŒç»­æ—¶é—´
+//            animatorSet.setDuration(moveVelocity);
+            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
+                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
+            animationList.add(animatorSet);
+
+        }
+        for (int i =listx.size()-1; i >=0; i--) {
+            y = (double) listy.get(i);
+            x = (double) listx.get(i);
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
+            AnimatorSet animatorSet = new AnimatorSet();
+            //æŒç»­æ—¶é—´
+//            animatorSet.setDuration(moveVelocity);
+            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view, "translationX", (float) x), //
+                    ObjectAnimator.ofFloat(view, "translationY", (float) y));//
+            animationList.add(animatorSet);
+        }
+        myAnimation.playSequentially(animationList);
+        myAnimation.setDuration(moveVelocity);
+        myAnimation.setTarget(view);
+
+
+        myAnimation.addListener(new Animator.AnimatorListener() {
+            private boolean mCanceled;
+
+            public void onAnimationStart(Animator animation) {
+                mCanceled = false;
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!mCanceled) {
+//                    animation.start();
+                }
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCanceled = true;
+            }
+        });
+        myAnimation.start();
+
+    }
+
+    /**
+     * æ¨¡æ‹Ÿéšæœºè¿åŠ¨ï¼Œè¿”å›è¿åŠ¨åæ ‡
+     * ä»¥åˆå§‹ä½ç½®ä¸ºä¸­å¿ƒï¼Œä»¥å®šå€¼ä¸ºåŠå¾„åšåœ†ï¼Œåœ¨åœ†å†…ç”Ÿæˆéšæœºæ•°ï¼Œè¿”å›ä¸€ä¸²éšå³æ•°ï¼Œæœ€åä¸€ä¸ªä¸ºåˆå§‹ä½ç½®
      * @param param
      * @return
      */
@@ -149,7 +313,7 @@ public class MoveAnimation {
         float m;
         float n;
         Random random = new Random();
-        //¶¨Òå°ë¾¶
+        //å®šä¹‰åŠå¾„
         float R = moveScope;
         float x1 =0f;
         float y1 =0f;
@@ -177,7 +341,7 @@ public class MoveAnimation {
     }
 
     /**
-     * »ñÈ¡ÇúÏßÊı¾İ
+     * è·å–æ›²çº¿æ•°æ®
      * @param start
      * @param end
      * @param arc
@@ -185,20 +349,20 @@ public class MoveAnimation {
      * @return
      */
     private List<List<Double>> getCurveData(float[] start,float[] end,int arc,int direction){
-        int coordinateNumber=50;
+        int coordinateNumber=80;
         List listX=new ArrayList<Long>();
         List listY=new ArrayList<Long>();
-        //¼ÆËã¶¼ÊÇÓÃµÄmatlab£¬ÓĞĞèÒª¶¼¿ÉÒÔÑ§Ï°Ò»ÏÂ
+        //è®¡ç®—ç”¨matlabï¼Œæœ‰éœ€è¦å¯ä»¥å­¦ä¹ ä¸€ä¸‹
 
-        //ÆğÊ¼µã×ø±ê
+        //èµ·å§‹ç‚¹åæ ‡
         double x1=start[0];
         double y1=start[1];
-        //½áÊøµã×ø±ê
+        //ç»“æŸç‚¹åæ ‡
         double x2=end[0];
         double y2=end[1];
 
 
-        //Ô²»¡ÖĞµã
+        //åœ†å¼§ä¸­ç‚¹
         double x3,y3;
         if(direction==0){
             x3=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
@@ -215,7 +379,7 @@ public class MoveAnimation {
             y3= 78;
         }
         Log.i("MoveAnimation","x1="+x1+",y1="+y1+",x2="+x2+",y2="+y2+",arc="+arc+",x3="+x3+",y3="+y3);
-        //ÈıµãÇóÔ²µÄ·½³Ì
+        //ä¸‰ç‚¹æ±‚åœ†çš„æ–¹ç¨‹
         double a,b,c;
         a =-(x1*x1*y2 - x1*x1*y3 - x2*x2*y1 + x2*x2*y3 + x3*x3*y1 - x3*x3*y2 + y1*y1*y2 - y1*y1*y3 - y1*y2*y2 + y1*y3*y3 + y2*y2*y3 - y2*y3*y3)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
         b =-(x1*x1*x3 - x1*x1*x2 + x1*x2*x2 - x1*x3*x3 + x1*y2*y2 - x1*y3*y3 - x2*x2*x3 + x2*x3*x3 - x2*y1*y1 + x2*y3*y3 + x3*y1*y1 - x3*y2*y2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
@@ -231,26 +395,35 @@ public class MoveAnimation {
         }else{
             left=0;
         }
-
         if(left==0){
             //x1<=x2
             double moveX=(x2-x1)/coordinateNumber;
             double moveNub=x1+moveX;
             for(int i=0;i<coordinateNumber;i++){
                 if (moveNub<=x2){
-                    double[] re=claculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
-                    listX.add(x);
-                    listY.add(y);
+                    if(windowsHeight!=0){
+                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
+                            listX.add(x);
+                            listY.add(y);
+                        }
+                    }
+
+
                 }else{
                     moveX=x2-(moveNub-moveX);
-                    double[] re=claculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
-                    listX.add(x);
-                    listY.add(y);
+                    if(windowsHeight!=0){
+                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
+                            listX.add(x);
+                            listY.add(y);
+                        }
+                    }
                     break;
                 }
             }
@@ -260,19 +433,27 @@ public class MoveAnimation {
             double moveNub=x1+moveX;
             for(int i=0;i<coordinateNumber;i++){
                 if (moveNub>=x2){
-                    double[] re=claculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
-                    listX.add(x);
-                    listY.add(y);
+                    if(windowsHeight!=0){
+                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
+                            listX.add(x);
+                            listY.add(y);
+                        }
+                    }
                 }else{
                     moveX=x2-(moveNub-moveX);
-                    double[] re=claculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
-                    listX.add(x);
-                    listY.add(y);
+                    if(windowsHeight!=0){
+                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
+                            listX.add(x);
+                            listY.add(y);
+                        }
+                    }
                     break;
                 }
             }
@@ -285,8 +466,17 @@ public class MoveAnimation {
         return list;
     }
 
-
-    private double[] claculateMoveCoordinate(double startX,double startY,double moveX,double a,double b,double c){
+    /**
+     * è®¡ç®—åœ†ä¸Šåæ ‡
+     * @param startX
+     * @param startY
+     * @param moveX
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+    private double[] calculateMoveCoordinate(double startX,double startY,double moveX,double a,double b,double c){
         double coordinate[]={0,0};
         double x=startX+moveX;
 
@@ -301,6 +491,65 @@ public class MoveAnimation {
             coordinate[1]=yy1;
         }
         return coordinate;
+    }
+
+    //è·å–å±å¹•å®½é«˜  paramä¸ºviewçš„å®½é«˜
+    public void setBoundary(WindowManager wm,float[] param){
+        windowsWight = wm.getDefaultDisplay().getWidth();
+        windowsHeight = wm.getDefaultDisplay().getHeight();
+        int[] location=new int[2];
+        view.getLocationOnScreen(location);
+        //ä¸Šå·¦ä¸€ç‚¹
+        float x1=location[0];
+        float y1=location[1];
+        //ä¸Šå³
+        float x2=x1+param[0];
+        float y2=y1;
+        //ä¸‹å·¦
+        float x3=x1;
+        float y3=y1+param[1];
+        //ä¸‹å³
+        float x4=x1+param[0];
+        float y4=y1+param[1];
+
+        viewFourCoordinate[0]=x1;
+        viewFourCoordinate[1]=y1;
+        viewFourCoordinate[2]=x2;
+        viewFourCoordinate[3]=y2;
+        viewFourCoordinate[4]=x3;
+        viewFourCoordinate[5]=y3;
+        viewFourCoordinate[6]=x4;
+        viewFourCoordinate[7]=y4;
+        Log.i(TAG, "setBoundary "+"view w h:"+param[0]+","+param[1]);
+        for(int i=0;i<8;i++){
+            Log.i(TAG, "setBoundary "+"viewFourCoordinate:"+viewFourCoordinate[i]);
+        }
+
+
+    }
+//åˆ¤æ–­æ˜¯å¦åœ¨è¾¹ç•Œ
+    private boolean isBoundary(float[] coordinate){
+//        Log.i(TAG, "isBoundary:"+"screenWidth"+windowsWight+",screenHeight"+windowsHeight);
+        Log.i(TAG, "isBoundary move x y"+coordinate[0]+","+coordinate[1]);
+
+        float x=coordinate[0];
+        float y=coordinate[1];
+        float a=x+viewFourCoordinate[2];
+//        Log.i(TAG, "isBoundary å·¦ï¼š"+a);
+//        Log.i(TAG, "isBoundary top" + view.getRight());
+        if(x+viewFourCoordinate[0]>0&&x+viewFourCoordinate[2]<windowsWight&&y+viewFourCoordinate[1]>0&&y+viewFourCoordinate[5]<windowsHeight){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+
+    private float[] getViewWightHeight(){
+
+        float wh[]=new float[2];
+//        wh[0]=
+        return null;
     }
 
 
