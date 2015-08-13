@@ -1,10 +1,12 @@
 package com.bcgtgjyb.test.mylibrary;
 
 
+import android.content.Context;
 import android.location.Location;
 import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -17,7 +19,8 @@ import java.util.Random;
  * Created by Administrator on 2015/8/10.
  */
 public class MoveAnimation {
-    boolean moveBoundary=false;
+    private final double pi=Math.PI;
+    boolean boundary=false;
     private String TAG="MoveAnimation";
     private View view;
     /**
@@ -37,6 +40,7 @@ public class MoveAnimation {
     private int windowsHeight=0;
 
     private float viewFourCoordinate[]={0,0,0,0,0,0,0,0};
+    private WindowManager wm;
 
     private MoveAnimation(){
 
@@ -46,6 +50,18 @@ public class MoveAnimation {
         this.view=view;
     }
 
+    public static MoveAnimation getInstance(){
+        return new MoveAnimation();
+    }
+
+    public void setBoundary(boolean boundary,int[] boundaryXY) {
+        windowsWight = boundaryXY[0];
+        windowsHeight = boundaryXY[1];
+        if(boundary){
+            setMyBoundary();
+        }
+        this.boundary = boundary;
+    }
 
     /**
      * set view random move
@@ -75,22 +91,82 @@ public class MoveAnimation {
             setViewAnimationReturn(view, (List) list.get(0), (List) list.get(1));
         }
     }
+
+    public void setCircleMove(float x0,float y0){
+        List list=getCircleData(x0,y0);
+        setMoveToCoordinate(list);
+//        setViewAnimationReturn(view, (List) list.get(0), (List) list.get(1));
+    }
+
+
+
+
+    private void setMoveToCoordinate(List list){
+        List listX=(List)list.get(0);
+        List listY=(List)list.get(1);
+        Log.i(TAG, "setMoveToCoordinate list.size"+listX.size());
+        move(listX, listY);
+    }
+
+
+
+    private void moveTo(List listX,List listY){
+        for (int i=0;i<listX.size();i++){
+            float nowX=view.getX();
+            float nowY=view.getY();
+            Log.i(TAG, "moveTo  nowX"+nowX+"   nowY:"+nowY);
+            view.animate().x(nowX).y(nowX);
+        }
+    }
     /**
      * make button move to (x,y)
-     * @param view
-     * @param x
-     * @param y
+     *
      */
-    public void move(View view,float x,float y){
-        float nowX=view.getX();
-        float nowY=view.getY();
-        AnimatorSet animatorSet=new AnimatorSet();
-		animatorSet.setDuration(moveVelocity);
-        animatorSet.playTogether(//
-                ObjectAnimator.ofFloat(view, "translationX", x*10),//
-                ObjectAnimator.ofFloat(view, "translationY", y*10));
-        animatorSet.setTarget(view);
-        animatorSet.start();
+    public void move(List listX,List listY){
+        List animationList = new ArrayList<Animator>();
+        AnimatorSet myAnimation = new AnimatorSet();
+        for(int i=0;i<listX.size();i++) {
+            double x=(double)listX.get(i);
+            double y=(double)listY.get(i);
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.setDuration(moveVelocity);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view, "x", (float) x),//
+                    ObjectAnimator.ofFloat(view, "y", (float) y));
+            animationList.add(animatorSet);
+        }
+        myAnimation.playSequentially(animationList);
+        myAnimation.setDuration(moveVelocity);
+        myAnimation.setTarget(view);
+
+
+        myAnimation.addListener(new Animator.AnimatorListener() {
+            private boolean mCanceled;
+
+            public void onAnimationStart(Animator animation) {
+                mCanceled = false;
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (!mCanceled) {
+//                    animation.start();
+                }
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                mCanceled = true;
+            }
+        });
+        myAnimation.start();
     }
 
     /**
@@ -405,11 +481,14 @@ public class MoveAnimation {
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
-                    if(windowsHeight!=0){
+                    if(boundary){
                         if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
                             listX.add(x);
                             listY.add(y);
                         }
+                    }else{
+                        listX.add(x);
+                        listY.add(y);
                     }
 
 
@@ -418,11 +497,14 @@ public class MoveAnimation {
                     double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
-                    if(windowsHeight!=0){
+                    if(boundary){
                         if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
                             listX.add(x);
                             listY.add(y);
                         }
+                    }else{
+                        listX.add(x);
+                        listY.add(y);
                     }
                     break;
                 }
@@ -437,22 +519,28 @@ public class MoveAnimation {
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
-                    if(windowsHeight!=0){
+                    if(boundary){
                         if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
                             listX.add(x);
                             listY.add(y);
                         }
+                    }else{
+                        listX.add(x);
+                        listY.add(y);
                     }
                 }else{
                     moveX=x2-(moveNub-moveX);
                     double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
                     x=re[0];
                     y=re[1];
-                    if(windowsHeight!=0){
+                    if(boundary){
                         if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
                             listX.add(x);
                             listY.add(y);
                         }
+                    }else{
+                        listX.add(x);
+                        listY.add(y);
                     }
                     break;
                 }
@@ -493,12 +581,13 @@ public class MoveAnimation {
         return coordinate;
     }
 
-    //获取屏幕宽高  param为view的宽高
-    public void setBoundary(WindowManager wm,float[] param){
-        windowsWight = wm.getDefaultDisplay().getWidth();
-        windowsHeight = wm.getDefaultDisplay().getHeight();
+    //获取屏幕宽高，获取view四点坐标
+    private void setMyBoundary(){
+
         int[] location=new int[2];
         view.getLocationOnScreen(location);
+
+        float param[]=getViewWightHeight();
         //上左一点
         float x1=location[0];
         float y1=location[1];
@@ -531,12 +620,8 @@ public class MoveAnimation {
     private boolean isBoundary(float[] coordinate){
 //        Log.i(TAG, "isBoundary:"+"screenWidth"+windowsWight+",screenHeight"+windowsHeight);
         Log.i(TAG, "isBoundary move x y"+coordinate[0]+","+coordinate[1]);
-
         float x=coordinate[0];
         float y=coordinate[1];
-        float a=x+viewFourCoordinate[2];
-//        Log.i(TAG, "isBoundary 左："+a);
-//        Log.i(TAG, "isBoundary top" + view.getRight());
         if(x+viewFourCoordinate[0]>0&&x+viewFourCoordinate[2]<windowsWight&&y+viewFourCoordinate[1]>0&&y+viewFourCoordinate[5]<windowsHeight){
             return true;
         }else {
@@ -546,11 +631,55 @@ public class MoveAnimation {
 
 
     private float[] getViewWightHeight(){
-
-        float wh[]=new float[2];
-//        wh[0]=
-        return null;
+        float [] viewCoordinate=new float[2];
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(w, h);
+        int height = view.getMeasuredHeight();
+        int width =  view.getMeasuredWidth();
+        viewCoordinate[0]=width;
+        viewCoordinate[1]=height;
+        return viewCoordinate;
     }
+
+
+    private List getCircleData(float x0,float y0){
+        int location[]=new int[2];
+        view.getLocationOnScreen(location);
+
+        double x1=location[0];
+        double y1=location[1];
+
+        float R=(float)Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0));
+
+        List listX=new ArrayList();
+        List listY=new ArrayList();
+        List list=new ArrayList();
+
+
+        double a1=(float)Math.acos((x1-x0)/R);
+        double i=a1+2*pi;
+        while (i>=a1){
+            i=i-0.25;
+            double y=y0+R*Math.sin(i);
+            double x=x0+R*Math.cos(i);
+            Log.i(TAG, "getCircleData a: "+a1+"  i: "+ i);
+            Log.i(TAG, "getNonlinearCoordinate  " + "x:" + x + "  y:" + y);
+            listX.add(x);
+            listY.add(y);
+//            listX.add(x-x1);
+//            listY.add(y-y1);
+            x1=x;
+            y1=y;
+        }
+
+
+        list.add(listX);
+        list.add(listY);
+        return list;
+    }
+
+
 
 
 }
