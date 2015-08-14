@@ -2,6 +2,9 @@ package com.bcgtgjyb.test.mylibrary;
 
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Location;
 import android.nfc.Tag;
 import android.util.Log;
@@ -19,6 +22,7 @@ import java.util.Random;
  * Created by Administrator on 2015/8/10.
  */
 public class MoveAnimation {
+    private Context context;
     private final double pi=Math.PI;
     boolean boundary=false;
     private String TAG="MoveAnimation";
@@ -46,7 +50,8 @@ public class MoveAnimation {
 
     }
 
-    public MoveAnimation(View view){
+    public MoveAnimation(View view,Context context){
+        this.context=context;
         this.view=view;
     }
 
@@ -65,7 +70,7 @@ public class MoveAnimation {
 
     /**
      * set view random move
-     * @param param
+     * @param param is true ,view random move
      */
     public void setRandomAnimation(boolean param){
         if(param) {
@@ -80,7 +85,7 @@ public class MoveAnimation {
 
     /**
      * set view curve move
-     * @param end
+     * @param end   final location of the view
      * @param arc
      * @param direction
      */
@@ -88,86 +93,126 @@ public class MoveAnimation {
         if(true){
             float[] start={0,0};
             List list=getCurveData(start, end, arc, direction);
-            setViewAnimationReturn(view, (List) list.get(0), (List) list.get(1));
+            setViewAnimationOnce(view, (List) list.get(0), (List) list.get(1));
         }
     }
 
+
+    /**
+     * set view move on a circle
+     * @param x0
+     * @param y0
+     */
     public void setCircleMove(float x0,float y0){
-        List list=getCircleData(x0,y0);
-        setMoveToCoordinate(list);
-//        setViewAnimationReturn(view, (List) list.get(0), (List) list.get(1));
-    }
-
-
-
-
-    private void setMoveToCoordinate(List list){
+        float[] location=getCoordinateOnFartherView();
+        List list=getCircleData(location[0],location[1],x0,y0);
         List listX=(List)list.get(0);
         List listY=(List)list.get(1);
-        Log.i(TAG, "setMoveToCoordinate list.size"+listX.size());
-        move(listX, listY);
+        moveTo(listX, listY);
+//        setViewAnimationReturn(view, listX, listY);
     }
 
 
 
-    private void moveTo(List listX,List listY){
-        for (int i=0;i<listX.size();i++){
-            float nowX=view.getX();
-            float nowY=view.getY();
-            Log.i(TAG, "moveTo  nowX"+nowX+"   nowY:"+nowY);
-            view.animate().x(nowX).y(nowX);
-        }
+
+
+    private float[] getCoordinateOnScreen(){
+        int[] location=new int[2];
+        view.getLocationOnScreen(location);
+        float myX = location[0];
+        float myY = location[1];
+        return new float[]{myX,myY};
     }
+
+    private float[] getCoordinateOnFartherView(){
+        float x1=view.getX();
+        float y1=view.getY();
+        return  new float[]{x1,y1};
+    }
+
+
+
+
+
     /**
      * make button move to (x,y)
-     *
+     *直接也到某坐标，坐标是相对于此时的父视图
      */
-    public void move(List listX,List listY){
+    private void moveTo(List listX,List listY){
         List animationList = new ArrayList<Animator>();
         AnimatorSet myAnimation = new AnimatorSet();
-        for(int i=0;i<listX.size();i++) {
-            double x=(double)listX.get(i);
-            double y=(double)listY.get(i);
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.setDuration(moveVelocity);
-            animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view, "x", (float) x),//
-                    ObjectAnimator.ofFloat(view, "y", (float) y));
-            animationList.add(animatorSet);
-        }
+        getAnimationList(animationList,listX,listY);
         myAnimation.playSequentially(animationList);
         myAnimation.setDuration(moveVelocity);
         myAnimation.setTarget(view);
-
-
-        myAnimation.addListener(new Animator.AnimatorListener() {
-            private boolean mCanceled;
-
-            public void onAnimationStart(Animator animation) {
-                mCanceled = false;
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!mCanceled) {
-//                    animation.start();
-                }
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mCanceled = true;
-            }
-        });
+        myAnimation.addListener(new AnimationOnceListener());
         myAnimation.start();
     }
+
+    class AnimationOnceListener implements Animator.AnimatorListener{
+
+        private boolean mCanceled;
+
+        public void onAnimationStart(Animator animation) {
+            mCanceled = false;
+            float[] location=getCoordinateOnFartherView();
+            Log.i(TAG, "onAnimationStart x y "+ location[0]+"   "+location[1]);
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if (!mCanceled) {
+//                    animation.start();
+            }
+            float[] location=getCoordinateOnFartherView();
+            Log.i(TAG, "onAnimationStart x y "+ location[0]+"   "+location[1]);
+
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            mCanceled = true;
+        }
+    }
+
+    class AnimationCirculateListener implements Animator.AnimatorListener{
+
+        private boolean mCanceled;
+
+        public void onAnimationStart(Animator animation) {
+            mCanceled = false;
+            float[] location=getCoordinateOnFartherView();
+            Log.i(TAG, "onAnimationStart x y "+ location[0]+"   "+location[1]);
+
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if (!mCanceled) {
+                    animation.start();
+            }
+            float[] location=getCoordinateOnFartherView();
+            Log.i(TAG, "onAnimationStart x y "+ location[0]+"   "+location[1]);
+
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+            mCanceled = true;
+        }
+    }
+
 
     /**
      * make view move to the coordinates which is in Listx and Listy,and return original coordinate !then Circulate like this
@@ -185,51 +230,11 @@ public class MoveAnimation {
             Log.i("MoveAnimation","setViewAnimation:"+"list为空");
             return ;
         }
-        for (int i = 0; i < listx.size(); i++) {
-            y = (double) listy.get(i);
-            x = (double) listx.get(i);
-//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
-            AnimatorSet animatorSet = new AnimatorSet();
-            //持续时间
-//            animatorSet.setDuration(moveVelocity);
-            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
-            animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
-                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
-            animationList.add(animatorSet);
-
-        }
+        getAnimationList(animationList,listx,listy);
         myAnimation.playSequentially(animationList);
         myAnimation.setDuration(moveVelocity);
         myAnimation.setTarget(view);
-
-
-        myAnimation.addListener(new Animator.AnimatorListener() {
-            private boolean mCanceled;
-
-            public void onAnimationStart(Animator animation) {
-                mCanceled = false;
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!mCanceled) {
-                    animation.start();
-                }
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mCanceled = true;
-            }
-        });
+        myAnimation.addListener(new AnimationCirculateListener());
         myAnimation.start();
 
     }
@@ -245,56 +250,18 @@ public class MoveAnimation {
         AnimatorSet myAnimation=new AnimatorSet();
         double x=0;
         double y;
-        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
+//        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
         if(listx.size()==0){
-            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
+//            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
             return ;
         }
-        for (int i = 0; i < listx.size(); i++) {
-            y = (double) listy.get(i);
-            x = (double) listx.get(i);
-//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
-            AnimatorSet animatorSet = new AnimatorSet();
-            //持续时间
-//            animatorSet.setDuration(moveVelocity);
-            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
-            animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
-                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
-            animationList.add(animatorSet);
-
-        }
+        getAnimationList(animationList,listx,listy);
         myAnimation.playSequentially(animationList);
         myAnimation.setDuration(moveVelocity);
         myAnimation.setTarget(view);
 
 
-        myAnimation.addListener(new Animator.AnimatorListener() {
-            private boolean mCanceled;
-
-            public void onAnimationStart(Animator animation) {
-                mCanceled = false;
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!mCanceled) {
-//                    animation.start();
-                }
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mCanceled = true;
-            }
-        });
+        myAnimation.addListener(new AnimationCirculateListener());
         myAnimation.start();
 
     }
@@ -310,25 +277,13 @@ public class MoveAnimation {
         AnimatorSet myAnimation=new AnimatorSet();
         double x=0;
         double y;
-        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
+//        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
         if(listx.size()==0){
-            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
+//            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
             return ;
         }
-        for (int i = 0; i < listx.size(); i++) {
-            y = (double) listy.get(i);
-            x = (double) listx.get(i);
-//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
-            AnimatorSet animatorSet = new AnimatorSet();
-            //持续时间
-//            animatorSet.setDuration(moveVelocity);
-            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
-            animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
-                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
-            animationList.add(animatorSet);
-
-        }
+        getAnimationList(animationList, listx, listy);
+        getAnimationListOpposite(animationList, listx, listy);
         for (int i =listx.size()-1; i >=0; i--) {
             y = (double) listy.get(i);
             x = (double) listx.get(i);
@@ -336,7 +291,7 @@ public class MoveAnimation {
             AnimatorSet animatorSet = new AnimatorSet();
             //持续时间
 //            animatorSet.setDuration(moveVelocity);
-            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+//            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
             animatorSet.playTogether(//
                     ObjectAnimator.ofFloat(view, "translationX", (float) x), //
                     ObjectAnimator.ofFloat(view, "translationY", (float) y));//
@@ -347,34 +302,99 @@ public class MoveAnimation {
         myAnimation.setTarget(view);
 
 
-        myAnimation.addListener(new Animator.AnimatorListener() {
-            private boolean mCanceled;
-
-            public void onAnimationStart(Animator animation) {
-                mCanceled = false;
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (!mCanceled) {
-//                    animation.start();
-                }
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                mCanceled = true;
-            }
-        });
+        myAnimation.addListener(new AnimationOnceListener());
         myAnimation.start();
 
+    }
+
+    private List getAnimationList(List animationList,List listx,List listy){
+        for (int i = 0; i < listx.size(); i++) {
+            double y = (double) listy.get(i);
+            double x = (double) listx.get(i);
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
+            AnimatorSet animatorSet = new AnimatorSet();
+            //持续时间
+//            animatorSet.setDuration(moveVelocity);
+//            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
+                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
+            animationList.add(animatorSet);
+        }
+        return  animationList;
+    }
+
+
+    private List getAnimationListOpposite(List animationList,List listx,List listy){
+        for (int i =listx.size()-1; i >=0; i--) {
+            double y = (double) listy.get(i);
+            double x = (double) listx.get(i);
+//            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
+            AnimatorSet animatorSet = new AnimatorSet();
+            //持续时间
+//            animatorSet.setDuration(moveVelocity);
+//            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            animatorSet.playTogether(//
+                    ObjectAnimator.ofFloat(view, "translationX", (float) x), //
+                    ObjectAnimator.ofFloat(view, "translationY", (float) y));//
+            animationList.add(animatorSet);
+        }
+        return animationList;
+    }
+
+    /**
+     * 水平旋转
+     * @param x
+     */
+    public void setRotation(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "rotation", x));
+        animatorSet.setTarget(view);
+        animatorSet.start();
+    }
+
+    /**
+     * x轴旋转
+     * @param x
+     */
+    public void setRotationX(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "rotationX", x));
+        animatorSet.setTarget(view);
+        animatorSet.start();
+    }
+
+    public void setRotationY(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "rotationY", x));
+        animatorSet.setTarget(view);
+        animatorSet.start();
+    }
+
+
+    /**
+     * X缩放
+     */
+    public void setScaleX(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "scaleX", x));
+
+        animatorSet.setTarget(view);
+        animatorSet.start();
+    }
+
+    public void setScaleY(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "scaleY", x));
+        animatorSet.setTarget(view);
+        animatorSet.start();
+    }
+
+    public void setAlpha(float x){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(ObjectAnimator.ofFloat(view, "alpha", x));
+        animatorSet.setTarget(view);
+        animatorSet.start();
     }
 
     /**
@@ -426,6 +446,8 @@ public class MoveAnimation {
      */
     private List<List<Double>> getCurveData(float[] start,float[] end,int arc,int direction){
         int coordinateNumber=80;
+
+        float[] original=getCoordinateOnFartherView();
         List listX=new ArrayList<Long>();
         List listY=new ArrayList<Long>();
         //计算用matlab，有需要可以学习一下
@@ -454,14 +476,14 @@ public class MoveAnimation {
             x3= 121;
             y3= 78;
         }
-        Log.i("MoveAnimation","x1="+x1+",y1="+y1+",x2="+x2+",y2="+y2+",arc="+arc+",x3="+x3+",y3="+y3);
+//        Log.i("MoveAnimation","x1="+x1+",y1="+y1+",x2="+x2+",y2="+y2+",arc="+arc+",x3="+x3+",y3="+y3);
         //三点求圆的方程
         double a,b,c;
         a =-(x1*x1*y2 - x1*x1*y3 - x2*x2*y1 + x2*x2*y3 + x3*x3*y1 - x3*x3*y2 + y1*y1*y2 - y1*y1*y3 - y1*y2*y2 + y1*y3*y3 + y2*y2*y3 - y2*y3*y3)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
         b =-(x1*x1*x3 - x1*x1*x2 + x1*x2*x2 - x1*x3*x3 + x1*y2*y2 - x1*y3*y3 - x2*x2*x3 + x2*x3*x3 - x2*y1*y1 + x2*y3*y3 + x3*y1*y1 - x3*y2*y2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
         c =(x1*x1*x3*y2 - x1*x1*x2*y3 + x1*x2*x2*y3 - x1*x3*x3*y2 + x1*y2*y2*y3 - x1*y2*y3*y3 - x2*x2*x3*y1 + x2*x3*x3*y1 - x2*y1*y1*y3 + x2*y1*y3*y3 + x3*y1*y1*y2 - x3*y1*y2*y2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
 
-        Log.i("MoveAnimation","a="+a+",b="+b+",c="+c);
+//        Log.i("MoveAnimation","a="+a+",b="+b+",c="+c);
         double x,y;
         x=x1;
         y=y1;
@@ -471,6 +493,8 @@ public class MoveAnimation {
         }else{
             left=0;
         }
+        listX.add((double)0);
+        listY.add((double)0);
         if(left==0){
             //x1<=x2
             double moveX=(x2-x1)/coordinateNumber;
@@ -555,7 +579,7 @@ public class MoveAnimation {
     }
 
     /**
-     * 计算圆上坐标
+     * 给定x计算圆上坐标
      * @param startX
      * @param startY
      * @param moveX
@@ -584,8 +608,8 @@ public class MoveAnimation {
     //获取屏幕宽高，获取view四点坐标
     private void setMyBoundary(){
 
-        int[] location=new int[2];
-        view.getLocationOnScreen(location);
+//        float[] location=getCoordinateInScreen();
+        float[] location=getCoordinateOnFartherView();
 
         float param[]=getViewWightHeight();
         //上左一点
@@ -643,41 +667,72 @@ public class MoveAnimation {
     }
 
 
-    private List getCircleData(float x0,float y0){
-        int location[]=new int[2];
-        view.getLocationOnScreen(location);
+    //传入圆心坐标
+    private List getCircleData(float x1,float y1,float x0,float y0){
+        float number=0.1f;
+        float location[]=getCoordinateOnFartherView();
+//        float[] location=getCoordinateInFartherView();
+        //起始点坐标
+//        double x1=location[0];
+//        double y1=location[1];
+        Log.i(TAG, "getCircleData x y: " + x1+"  ,"+y1);
 
-        double x1=location[0];
-        double y1=location[1];
-
-        float R=(float)Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0));
+        double R=Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0));
 
         List listX=new ArrayList();
         List listY=new ArrayList();
         List list=new ArrayList();
 
+        double param=Math.abs(y1 - y0)/R;
+        if(param<-1.0){
+            param=-1.0;
+        }else if(param>1.0){
+            param=1.0;}
 
-        double a1=(float)Math.acos((x1-x0)/R);
-        double i=a1+2*pi;
-        while (i>=a1){
-            i=i-0.25;
-            double y=y0+R*Math.sin(i);
-            double x=x0+R*Math.cos(i);
-            Log.i(TAG, "getCircleData a: "+a1+"  i: "+ i);
-            Log.i(TAG, "getNonlinearCoordinate  " + "x:" + x + "  y:" + y);
+        double a=Math.asin(param);
+        if(x1>=x0&&y1>=y0){
+            a=a;
+        }else if(x1<x0&&y1>=y0){
+            a=pi-a;
+        }else if(x1<x0&&y1<y0){
+            a=a+pi;
+        }else {
+            a=2*pi-a;
+        }
+
+        double i=a+number;
+
+        Log.i(TAG, "getCircleData a: " + a + "  R:" + R);
+        while (i<=(a+2*pi)){
+            double y,x;
+            x=x0+R*Math.cos(i);y=y0+R*Math.sin(i);
+//            Log.i(TAG, "getCircleData i cos sin  "+i+"   "+Math.cos(i)+"   "+Math.sin(i));
+
             listX.add(x);
             listY.add(y);
-//            listX.add(x-x1);
-//            listY.add(y-y1);
-            x1=x;
-            y1=y;
+            double aa=x-x1;
+            double bb=y-y1;
+//            listX.add(aa);
+//            listY.add(bb);
+            Log.i(TAG, "getCircleData  a:" +i+ "   x:" + x + "  y:" + y  +"  a:"+ aa+"   b:"+bb);
+            x1=(float)x;
+            y1=(float)y;
+            i=i+number;
         }
+
+        float[] orinage=getCoordinateOnFartherView();
+        listX.add((double)orinage[0]);
+        listY.add((double)orinage[1]);
 
 
         list.add(listX);
         list.add(listY);
         return list;
     }
+
+
+
+
 
 
 

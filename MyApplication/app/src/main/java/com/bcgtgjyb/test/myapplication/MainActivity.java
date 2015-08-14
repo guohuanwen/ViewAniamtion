@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.move_button);
-        moveAnimation=new MoveAnimation(button);
+        moveAnimation=new MoveAnimation(button,getApplicationContext());
 //        moveAnimation.setRandomAnimation(true);
 //        Log.d(TAG, "onCreate"+button.getX()+","+button.getY());
 
@@ -46,9 +46,10 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                moveAnimation.setBoundary(false,boundaryXY);
-//                moveAnimation.setCurveMove(new float[]{600, 600}, 700, 0);
-                moveAnimation.setCircleMove(300,300);
+//                moveAnimation.setBoundary(true,boundaryXY);
+//                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
+//                moveAnimation.setCircleMove(0,0);
+                moveAnimation.setAlpha(0.1f);
             }
         });
         //是否自由移动
