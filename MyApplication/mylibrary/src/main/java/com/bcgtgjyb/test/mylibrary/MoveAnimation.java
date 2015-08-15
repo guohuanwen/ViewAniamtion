@@ -2,19 +2,14 @@ package com.bcgtgjyb.test.mylibrary;
 
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.location.Location;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +26,7 @@ public class MoveAnimation {
     /**
      * 运动速度
      */
-    private int moveVelocity=20;
+    private int moveVelocity=5;
     /**
      * 自由运动范围
      */
@@ -60,6 +55,13 @@ public class MoveAnimation {
         return new MoveAnimation();
     }
 
+
+    public AnimationBuild getBuild(){
+        if (animationBuild==null){
+            animationBuild=new AnimationBuild();
+        }
+        return animationBuild;
+    }
     public void setBoundary(boolean boundary,int[] boundaryXY) {
         windowsWight = boundaryXY[0];
         windowsHeight = boundaryXY[1];
@@ -81,7 +83,7 @@ public class MoveAnimation {
             float myY = location[1];
             List list = getRandomDate(coordinateNumber);
             List animation=new ArrayList();
-            getAnimationList(animation,(List) list.get(0), (List) list.get(1));
+            getAnimationList(animation, (List) list.get(0), (List) list.get(1));
             setViewAnimationCirculate(view, animation);
         }
     }
@@ -99,7 +101,22 @@ public class MoveAnimation {
             List animation=new ArrayList();
 //            getAnimationList(animation,(List) list.get(0), (List) list.get(1));
 //            getAnimationListOpposite(animation, (List) list.get(0), (List) list.get(1));
-            getAllAnimationList(animation, new AnimationBuild().setAlpha(0.3f));
+
+
+            List list1=new ArrayList();
+            List list2=new ArrayList();
+            List listX=(List) list.get(0);
+            List listY=(List) list.get(1);
+            list1.addAll(listX);
+            list2.addAll(listY);
+            Collections.reverse(listX);
+            Collections.reverse(listY);
+            list1.addAll(listX);
+            list2.addAll(listY);
+            getAllAnimationList(animation, new AnimationBuild().setAlpha(0.3f).//
+                    setRotation(360).setScaleX(2).setRotationX(360).//
+                    setListXY(list1, list2));
+
             setViewAnimationOnce(view, animation);
         }
     }
@@ -123,12 +140,7 @@ public class MoveAnimation {
 
 
 
-    public AnimationBuild getBuild(){
-        if(animationBuild==null){
-            animationBuild=new AnimationBuild();
-        }
-        return animationBuild;
-    }
+
 
 
 
@@ -249,7 +261,7 @@ public class MoveAnimation {
      * set view move to the coordinate,no return
      * @param view
      */
-    private void setViewAnimationOnce(final View view,List animationList) {
+    public void setViewAnimationOnce(final View view,List animationList) {
         AnimatorSet myAnimation=new AnimatorSet();
         myAnimation.playSequentially(animationList);
         myAnimation.addListener(new AnimationOnceListener());
@@ -265,7 +277,7 @@ public class MoveAnimation {
      * @param animationBuild
      * @return
      */
-    private List getAllAnimationList(List animationList,AnimationBuild animationBuild){
+    public List getAllAnimationList(List animationList,AnimationBuild animationBuild){
         int circleNumber=30;
         List list=animationBuild.getListXY();
 
@@ -275,6 +287,12 @@ public class MoveAnimation {
             circleNumber=listx.size();
         }
         float alphaNum=(1-animationBuild.getAlpha())/circleNumber;
+        float rotation=(animationBuild.getRotation()-view.getRotation())/circleNumber;
+        float rotationX=(animationBuild.getRotationX()-view.getRotationX())/circleNumber;
+        float rotationY=(animationBuild.getRotationY()-view.getRotationY())/circleNumber;
+        float scaleX=(animationBuild.getScaleX()-view.getScaleX())/circleNumber;
+        float scaleY=(animationBuild.getScaleY()-view.getScaleY())/circleNumber;
+
         float nowAlpha=1;
         float nowRotation=0;
         float nowRotationX=0;
@@ -285,6 +303,11 @@ public class MoveAnimation {
         double y=0;
         for (int i = 0; i < circleNumber; i++) {
             nowAlpha=nowAlpha-alphaNum;
+            nowRotation=nowRotation+rotation;
+            nowRotationX=nowRotationX+rotationX;
+            nowRotationY=nowRotationY+rotationY;
+            nowScaleX=nowScaleX+scaleX;
+            nowScaleY=nowScaleY+scaleY;
             if(listx.size()!=0){
                  y = (double) listy.get(i);
                  x = (double) listx.get(i);}
@@ -345,73 +368,12 @@ public class MoveAnimation {
     }
 
     /**
-     * 水平旋转
-     * @param x
-     */
-    public AnimatorSet getRotationAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "rotation", x));
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return animatorSet;
-    }
-
-    /**
-     * x轴旋转
-     * @param x
-     */
-    public AnimatorSet getRotationXAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "rotationX", x));
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return  animatorSet;
-    }
-
-    public AnimatorSet getetRotationYAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "rotationY", x));
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return animatorSet;
-    }
-
-
-    /**
-     * X缩放
-     */
-    public AnimatorSet getScaleXAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "scaleX", x));
-
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return animatorSet;
-    }
-
-    public AnimatorSet getScaleYAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "scaleY", x));
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return  animatorSet;
-    }
-
-    public AnimatorSet getAlphaAnimation(float x){
-        AnimatorSet animatorSet=new AnimatorSet();
-        animatorSet.play(ObjectAnimator.ofFloat(view, "alpha", x));
-        animatorSet.setTarget(view);
-        animatorSet.start();
-        return  animatorSet;
-    }
-
-    /**
      * 模拟随机运动，返回运动坐标
      * 以初始位置为中心，以定值为半径做圆，在圆内生成随机数，返回一串随即数，最后一个为初始位置
      * @param param
      * @return
      */
-    private List<List> getRandomDate(int param) {
+    public List<List> getRandomDate(int param) {
         List x = new ArrayList<Object>();
         List y = new ArrayList<Object>();
         float m;
@@ -452,7 +414,7 @@ public class MoveAnimation {
      * @param direction
      * @return
      */
-    private List<List<Double>> getCurveData(float[] start,float[] end,int arc,int direction){
+    public List<List<Double>> getCurveData(float[] start,float[] end,int arc,int direction){
         int coordinateNumber=80;
 
         float[] original=getCoordinateOnFartherView();
@@ -676,7 +638,7 @@ public class MoveAnimation {
 
 
     //传入圆心坐标
-    private List getCircleData(float x1,float y1,float x0,float y0){
+    public List getCircleData(float x1,float y1,float x0,float y0){
         float number=0.1f;
         float location[]=getCoordinateOnFartherView();
 //        float[] location=getCoordinateInFartherView();
@@ -739,16 +701,67 @@ public class MoveAnimation {
     }
 
 
-    class AnimationBuild {
+    public class AnimationBuild {
 //        * @param rotation 水平旋转
 //        * @param rotationX 3dx轴旋转
 //        * @param ratationY 3dY轴旋转
 //        * @param scaleX X轴缩放
 //        * @param scaleY y轴缩放
 //        * @param alpha 透明度（0-1）
-        float rotation=0;float rotationX=0;float rotationY=0;
-        float scaleX=1;float scaleY=1;
+        /**
+         * 水平旋转（0°-360°）
+         */
+        float rotation=0;
+        /**
+         *3dx轴旋转（0°-360°）
+         */
+        float rotationX=0;
+        /**
+         *3dY轴旋转（0°-360°）
+         */
+        float rotationY=0;
+        /**
+         *X轴缩放
+         */
+        float scaleX=1;
+        /**
+         *y轴缩放
+         */
+        float scaleY=1;
+        /**
+         *透明度（0-1）
+         */
         float alpha=1;
+
+        /**
+         * 默认的animation数目
+         */
+        int number=30;
+
+
+        int listSequence=1;
+
+        public int getListSequence() {
+            return listSequence;
+        }
+
+        public AnimationBuild setListSequence(int listSequence) {
+            this.listSequence = listSequence;
+            return this;
+        }
+
+        public AnimationBuild setNumber(int number) {
+            this.number=number;
+            return this;
+        }
+
+        public int getNumber() {
+            if (listX.size()!=0){
+                number=listX.size();
+            }
+            return number;
+        }
+
         List listX=new ArrayList();
         List listY=new ArrayList();
 
@@ -786,6 +799,12 @@ public class MoveAnimation {
         }
 
         public AnimationBuild setAlpha(float alpha) {
+            if(alpha>1){
+                alpha=1;
+            }
+            if (alpha<0){
+                alpha = 0;
+            }
             this.alpha = alpha;
             return this;
         }
@@ -813,6 +832,7 @@ public class MoveAnimation {
         public AnimationBuild setListXY(List listX,List listY){
             this.listX=listX;
             this.listY=listY;
+
             return this;
         }
 

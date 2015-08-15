@@ -15,6 +15,10 @@ import android.widget.Button;
 
 import com.bcgtgjyb.test.mylibrary.MoveAnimation;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity {
     private Button button;
@@ -22,11 +26,14 @@ public class MainActivity extends ActionBarActivity {
     private MoveAnimation moveAnimation;
     private float[] viewCoordinate=new float[2];
     private int[] boundaryXY=new int[2];
+    private Button returnButton;
+    private List list=new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.move_button);
+        returnButton=(Button)findViewById(R.id.button);
         moveAnimation=new MoveAnimation(button,getApplicationContext());
 //        moveAnimation.setRandomAnimation(true);
 //        Log.d(TAG, "onCreate"+button.getX()+","+button.getY());
@@ -46,11 +53,35 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveAnimation.setBoundary(true,boundaryXY);
-                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
+                Log.i(TAG, "onClick " + button.getScaleX() + "  " + button.getScaleY());
+                moveAnimation.setBoundary(true, boundaryXY);
+                int[] location=new int[2];
+                button.getLocationOnScreen(location);
+                list=moveAnimation.getCurveData(new float[]{0,0}, new float[]{500,500}, 80, 1);
+                List listX=(List)list.get(0);
+                List listY=(List)list.get(1);
+                List aniamtionList=new ArrayList();
+                moveAnimation.getAllAnimationList(aniamtionList, moveAnimation.getBuild().setScaleY(0.2f).setScaleX(0.2f).setAlpha(0.2f).setListXY(listX, listY));
+                moveAnimation.setViewAnimationOnce(button, aniamtionList);
+                Log.i(TAG, "onClick " + button.getScaleX() + "  " + button.getScaleY());
+//                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
 //                moveAnimation.setCircleMove(0,0);
 //                moveAnimation.setAlpha(0.1f);
 //                moveAnimation.setAlpha(1f);
+            }
+        });
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List listX=(List)list.get(0);
+                List listY=(List)list.get(1);
+                Collections.reverse(listX);
+                Collections.reverse(listY);
+                List animationList=new ArrayList();
+                moveAnimation.getAllAnimationList(animationList, moveAnimation.getBuild().setScaleY(1).setScaleX(1).setAlpha(1).setListXY(listX, listY));
+                moveAnimation.setViewAnimationOnce(button, animationList);
+                Log.i(TAG, "onClick " +button.getScaleX()+"  "+button.getScaleY());
             }
         });
         //是否自由移动
