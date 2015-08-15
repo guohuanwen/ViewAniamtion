@@ -22,6 +22,7 @@ import java.util.Random;
  * Created by Administrator on 2015/8/10.
  */
 public class MoveAnimation {
+    private AnimationBuild animationBuild;
     private Context context;
     private final double pi=Math.PI;
     boolean boundary=false;
@@ -79,7 +80,9 @@ public class MoveAnimation {
             float myX = location[0];
             float myY = location[1];
             List list = getRandomDate(coordinateNumber);
-            setViewAnimationCirculate(view, (List) list.get(0), (List) list.get(1));
+            List animation=new ArrayList();
+            getAnimationList(animation,(List) list.get(0), (List) list.get(1));
+            setViewAnimationCirculate(view, animation);
         }
     }
 
@@ -93,7 +96,11 @@ public class MoveAnimation {
         if(true){
             float[] start={0,0};
             List list=getCurveData(start, end, arc, direction);
-            setViewAnimationOnce(view, (List) list.get(0), (List) list.get(1));
+            List animation=new ArrayList();
+//            getAnimationList(animation,(List) list.get(0), (List) list.get(1));
+//            getAnimationListOpposite(animation, (List) list.get(0), (List) list.get(1));
+            getAllAnimationList(animation, new AnimationBuild().setAlpha(0.3f));
+            setViewAnimationOnce(view, animation);
         }
     }
 
@@ -113,6 +120,15 @@ public class MoveAnimation {
     }
 
 
+
+
+
+    public AnimationBuild getBuild(){
+        if(animationBuild==null){
+            animationBuild=new AnimationBuild();
+        }
+        return animationBuild;
+    }
 
 
 
@@ -214,23 +230,13 @@ public class MoveAnimation {
     }
 
 
+
     /**
      * make view move to the coordinates which is in Listx and Listy,and return original coordinate !then Circulate like this
      * @param view
-     * @param listx
-     * @param listy
      */
-    private void setViewAnimationCirculate(final View view, List listx, List listy) {
-        List animationList = new ArrayList<Animator>();
+    private void setViewAnimationCirculate(final View view,List animationList) {
         AnimatorSet myAnimation=new AnimatorSet();
-        double x=0;
-        double y;
-        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
-        if(listx.size()==0){
-            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
-            return ;
-        }
-        getAnimationList(animationList,listx,listy);
         myAnimation.playSequentially(animationList);
         myAnimation.setDuration(moveVelocity);
         myAnimation.setTarget(view);
@@ -242,70 +248,66 @@ public class MoveAnimation {
     /**
      * set view move to the coordinate,no return
      * @param view
-     * @param listx
-     * @param listy
      */
-    private void setViewAnimationOnce(final View view, List listx, List listy) {
-        List animationList = new ArrayList<Animator>();
+    private void setViewAnimationOnce(final View view,List animationList) {
         AnimatorSet myAnimation=new AnimatorSet();
-        double x=0;
-        double y;
-//        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
-        if(listx.size()==0){
-//            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
-            return ;
-        }
-        getAnimationList(animationList,listx,listy);
         myAnimation.playSequentially(animationList);
+        myAnimation.addListener(new AnimationOnceListener());
         myAnimation.setDuration(moveVelocity);
         myAnimation.setTarget(view);
-
-
-        myAnimation.addListener(new AnimationCirculateListener());
         myAnimation.start();
 
     }
 
     /**
-     * set view move to the coordinate and return the original coordinate
-     * @param view
-     * @param listx
-     * @param listy
+     *
+     * @param animationList add animationSet in this
+     * @param animationBuild
+     * @return
      */
-    private void setViewAnimationReturn(final View view, List listx, List listy) {
-        List animationList = new ArrayList<Animator>();
-        AnimatorSet myAnimation=new AnimatorSet();
-        double x=0;
-        double y;
-//        Log.i("MoveAnimation","setViewAnimation:"+listx.size()+";"+listy.size());
-        if(listx.size()==0){
-//            Log.i("MoveAnimation","setViewAnimation:"+"list为空");
-            return ;
+    private List getAllAnimationList(List animationList,AnimationBuild animationBuild){
+        int circleNumber=30;
+        List list=animationBuild.getListXY();
+
+        List listx=(List)list.get(0);
+        List listy=(List)list.get(1);
+        if(listx.size()!=0){
+            circleNumber=listx.size();
         }
-        getAnimationList(animationList, listx, listy);
-        getAnimationListOpposite(animationList, listx, listy);
-        for (int i =listx.size()-1; i >=0; i--) {
-            y = (double) listy.get(i);
-            x = (double) listx.get(i);
+        float alphaNum=(1-animationBuild.getAlpha())/circleNumber;
+        float nowAlpha=1;
+        float nowRotation=0;
+        float nowRotationX=0;
+        float nowRotationY=0;
+        float nowScaleX=1;
+        float nowScaleY=1;
+        double x=0;
+        double y=0;
+        for (int i = 0; i < circleNumber; i++) {
+            nowAlpha=nowAlpha-alphaNum;
+            if(listx.size()!=0){
+                 y = (double) listy.get(i);
+                 x = (double) listx.get(i);}
 //            Log.i("MoveAnimation","setViewAnimation:"+x+";"+y);
             AnimatorSet animatorSet = new AnimatorSet();
             //持续时间
 //            animatorSet.setDuration(moveVelocity);
 //            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
             animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view, "translationX", (float) x), //
-                    ObjectAnimator.ofFloat(view, "translationY", (float) y));//
+                    ObjectAnimator.ofFloat(view,"rotation",nowRotation),
+                    ObjectAnimator.ofFloat(view,"rotationX",nowRotationX),
+                    ObjectAnimator.ofFloat(view,"rotationY",nowRotationY),
+                    ObjectAnimator.ofFloat(view,"scaleX",nowScaleX),
+                    ObjectAnimator.ofFloat(view,"scaleY",nowScaleY),
+                    ObjectAnimator.ofFloat(view,"alpha",nowAlpha),
+                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
+                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
             animationList.add(animatorSet);
         }
-        myAnimation.playSequentially(animationList);
-        myAnimation.setDuration(moveVelocity);
-        myAnimation.setTarget(view);
-
-
-        myAnimation.addListener(new AnimationOnceListener());
-        myAnimation.start();
-
+        return  animationList;
     }
+
+
 
     private List getAnimationList(List animationList,List listx,List listy){
         for (int i = 0; i < listx.size(); i++) {
@@ -346,55 +348,61 @@ public class MoveAnimation {
      * 水平旋转
      * @param x
      */
-    public void setRotation(float x){
+    public AnimatorSet getRotationAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "rotation", x));
         animatorSet.setTarget(view);
         animatorSet.start();
+        return animatorSet;
     }
 
     /**
      * x轴旋转
      * @param x
      */
-    public void setRotationX(float x){
+    public AnimatorSet getRotationXAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "rotationX", x));
         animatorSet.setTarget(view);
         animatorSet.start();
+        return  animatorSet;
     }
 
-    public void setRotationY(float x){
+    public AnimatorSet getetRotationYAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "rotationY", x));
         animatorSet.setTarget(view);
         animatorSet.start();
+        return animatorSet;
     }
 
 
     /**
      * X缩放
      */
-    public void setScaleX(float x){
+    public AnimatorSet getScaleXAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "scaleX", x));
 
         animatorSet.setTarget(view);
         animatorSet.start();
+        return animatorSet;
     }
 
-    public void setScaleY(float x){
+    public AnimatorSet getScaleYAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "scaleY", x));
         animatorSet.setTarget(view);
         animatorSet.start();
+        return  animatorSet;
     }
 
-    public void setAlpha(float x){
+    public AnimatorSet getAlphaAnimation(float x){
         AnimatorSet animatorSet=new AnimatorSet();
         animatorSet.play(ObjectAnimator.ofFloat(view, "alpha", x));
         animatorSet.setTarget(view);
         animatorSet.start();
+        return  animatorSet;
     }
 
     /**
@@ -729,6 +737,93 @@ public class MoveAnimation {
         list.add(listY);
         return list;
     }
+
+
+    class AnimationBuild {
+//        * @param rotation 水平旋转
+//        * @param rotationX 3dx轴旋转
+//        * @param ratationY 3dY轴旋转
+//        * @param scaleX X轴缩放
+//        * @param scaleY y轴缩放
+//        * @param alpha 透明度（0-1）
+        float rotation=0;float rotationX=0;float rotationY=0;
+        float scaleX=1;float scaleY=1;
+        float alpha=1;
+        List listX=new ArrayList();
+        List listY=new ArrayList();
+
+        public float getAlpha() {
+            return alpha;
+        }
+
+        public float getRotation() {
+            return rotation;
+        }
+
+        public float getRotationX() {
+            return rotationX;
+        }
+
+        public float getRotationY() {
+            return rotationY;
+        }
+
+        public float getScaleX() {
+            return scaleX;
+        }
+
+        public float getScaleY() {
+            return scaleY;
+        }
+
+        AnimationBuild(){
+
+        }
+
+        public AnimationBuild setScaleY(float scaleY) {
+            this.scaleY = scaleY;
+            return this;
+        }
+
+        public AnimationBuild setAlpha(float alpha) {
+            this.alpha = alpha;
+            return this;
+        }
+
+        public AnimationBuild setRotation(float rotation) {
+            this.rotation = rotation;
+            return this;
+        }
+
+        public AnimationBuild setRotationX(float rotationX) {
+            this.rotationX = rotationX;
+            return this;
+        }
+
+        public AnimationBuild setRotationY(float rotationY) {
+            this.rotationY = rotationY;
+            return this;
+        }
+
+        public AnimationBuild setScaleX(float scaleX) {
+            this.scaleX = scaleX;
+            return this;
+        }
+
+        public AnimationBuild setListXY(List listX,List listY){
+            this.listX=listX;
+            this.listY=listY;
+            return this;
+        }
+
+        public List getListXY() {
+            List list=new ArrayList();
+            list.add(listX);
+            list.add(listY);
+            return list;
+        }
+    }
+
 
 
 

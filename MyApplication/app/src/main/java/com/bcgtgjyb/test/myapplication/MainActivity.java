@@ -46,10 +46,11 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                moveAnimation.setBoundary(true,boundaryXY);
-//                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
+                moveAnimation.setBoundary(true,boundaryXY);
+                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
 //                moveAnimation.setCircleMove(0,0);
-                moveAnimation.setAlpha(0.1f);
+//                moveAnimation.setAlpha(0.1f);
+//                moveAnimation.setAlpha(1f);
             }
         });
         //是否自由移动
