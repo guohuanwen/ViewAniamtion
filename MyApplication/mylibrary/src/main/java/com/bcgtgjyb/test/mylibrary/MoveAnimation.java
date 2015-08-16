@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.WindowManager;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.Keyframe;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -113,9 +116,9 @@ public class MoveAnimation {
             Collections.reverse(listY);
             list1.addAll(listX);
             list2.addAll(listY);
-            getAllAnimationList(animation, new AnimationBuild().setAlpha(0.3f).//
-                    setRotation(360).setScaleX(2).setRotationX(360).//
-                    setListXY(list1, list2));
+//            getAllAnimationList(animation, new AnimationBuild().setAlpha(0.3f).//
+//                    setRotation(360).setScaleX(2).setRotationX(360).//
+//                    setListXY(list1, list2));
 
             setViewAnimationOnce(view, animation);
         }
@@ -271,13 +274,115 @@ public class MoveAnimation {
 
     }
 
+
+    public AnimatorSet setScaleX(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "scaleX", x)
+        );
+        animatorSet.setDuration(duration);
+        return animatorSet;
+    }
+
+
+    public AnimatorSet setScaleY(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "scaleY", x)
+        );
+        animatorSet.setDuration(duration);
+        return  animatorSet;
+    }
+
+    public AnimatorSet setRotation(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "rotation", x)
+        );
+        animatorSet.setDuration(duration);
+        return  animatorSet;
+    }
+
+    public AnimatorSet setRotationX(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "rotationX", x)
+        );
+        animatorSet.setDuration(duration);
+        return  animatorSet;
+    }
+
+    public AnimatorSet setRotationY(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "rotationY", x)
+        );
+        animatorSet.setDuration(duration);
+        return  animatorSet;
+    }
+
+    public AnimatorSet setAlpha(View view,float x,int duration){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.play(
+                ObjectAnimator.ofFloat(view, "alpha", x)
+        );
+        animatorSet.setDuration(duration);
+        return  animatorSet;
+    }
+
+    public AnimatorSet setTranslation(View view,float x,float y,int duration){
+        AnimatorSet animatorSet = new AnimatorSet();
+        PropertyValuesHolder p1=PropertyValuesHolder.ofFloat("translationX", (float) x);
+        PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("translationY", (float) y);
+
+        animatorSet.play(ObjectAnimator.ofPropertyValuesHolder(view, p1, p2));
+        //setDuration在play后面设置
+        animatorSet.setDuration(duration);
+        return animatorSet;
+    }
+
+    public AnimatorSet setTranslation(View view,List listX,List listY,int duration){
+        AnimatorSet a=new AnimatorSet();
+        List list1=new ArrayList();
+        List list2=new ArrayList();
+        float number=listX.size();
+        for (int i = 0; i < listX.size(); i++) {
+            double y = (double) listY.get(i);
+            double x = (double) listX.get(i);
+            Keyframe kx=Keyframe.ofFloat((i/number),(float)x);
+            Keyframe ky=Keyframe.ofFloat((i/number),(float)y);
+            list1.add(kx);
+            list2.add(ky);
+        }
+        Keyframe[] kx=(Keyframe[])(list1.toArray(new Keyframe[list1.size()]));
+        Keyframe[] ky=(Keyframe[])(list2.toArray(new Keyframe[list2.size()]));
+        PropertyValuesHolder p1=PropertyValuesHolder.ofKeyframe("translationX", kx);
+        PropertyValuesHolder p2=PropertyValuesHolder.ofKeyframe("translationY", ky);
+        a.play(ObjectAnimator.ofPropertyValuesHolder(view,p1,p2));
+        a.setDuration(duration);
+        return a;
+    }
+
+    public AnimatorSet playTogether(List list){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.playTogether(list);
+        return  animatorSet;
+    }
+
+    public AnimatorSet playSequentially(List list){
+        AnimatorSet animatorSet=new AnimatorSet();
+        animatorSet.playSequentially(list);
+        return  animatorSet;
+    }
+
     /**
      *
      * @param animationList add animationSet in this
      * @param animationBuild
      * @return
      */
-    public List getAllAnimationList(List animationList,AnimationBuild animationBuild){
+    public AnimatorSet getAllAnimationList(List animationList,AnimationBuild animationBuild){
+        AnimatorSet a=new AnimatorSet();
         int circleNumber=30;
         List list=animationBuild.getListXY();
 
@@ -290,7 +395,14 @@ public class MoveAnimation {
         float rotation=(animationBuild.getRotation()-view.getRotation())/circleNumber;
         float rotationX=(animationBuild.getRotationX()-view.getRotationX())/circleNumber;
         float rotationY=(animationBuild.getRotationY()-view.getRotationY())/circleNumber;
-        float scaleX=(animationBuild.getScaleX()-view.getScaleX())/circleNumber;
+        float scaleX = (animationBuild.getLastScaleX() - animationBuild.getNowScaleX()) / circleNumber;
+        boolean scaleXParam;
+        if(animationBuild.getLastScaleX() - animationBuild.getNowScaleX()>=0){
+            //放大
+            scaleXParam=false;
+        }else {
+            scaleXParam=false;
+        }
         float scaleY=(animationBuild.getScaleY()-view.getScaleY())/circleNumber;
 
         float nowAlpha=1;
@@ -299,6 +411,8 @@ public class MoveAnimation {
         float nowRotationY=0;
         float nowScaleX=1;
         float nowScaleY=1;
+        float lastScaleX=1;
+        float lastScaleY=1;
         double x=0;
         double y=0;
         for (int i = 0; i < circleNumber; i++) {
@@ -306,7 +420,7 @@ public class MoveAnimation {
             nowRotation=nowRotation+rotation;
             nowRotationX=nowRotationX+rotationX;
             nowRotationY=nowRotationY+rotationY;
-            nowScaleX=nowScaleX+scaleX;
+            nowScaleX = nowScaleX + scaleX;
             nowScaleY=nowScaleY+scaleY;
             if(listx.size()!=0){
                  y = (double) listy.get(i);
@@ -316,18 +430,21 @@ public class MoveAnimation {
             //持续时间
 //            animatorSet.setDuration(moveVelocity);
 //            Log.i("Animation", "setButtonAnimation++" + x + "---" + y);
+            Log.i(TAG, "getAllAnimationList  "+nowScaleX+"  "+nowScaleY);
             animatorSet.playTogether(//
-                    ObjectAnimator.ofFloat(view,"rotation",nowRotation),
-                    ObjectAnimator.ofFloat(view,"rotationX",nowRotationX),
-                    ObjectAnimator.ofFloat(view,"rotationY",nowRotationY),
-                    ObjectAnimator.ofFloat(view,"scaleX",nowScaleX),
-                    ObjectAnimator.ofFloat(view,"scaleY",nowScaleY),
-                    ObjectAnimator.ofFloat(view,"alpha",nowAlpha),
-                    ObjectAnimator.ofFloat(view,"translationX",(float)x), //
-                    ObjectAnimator.ofFloat(view, "translationY",(float)y));//
+                    ObjectAnimator.ofFloat(view, "rotation", nowRotation),
+                    ObjectAnimator.ofFloat(view, "rotationX", nowRotationX),
+                    ObjectAnimator.ofFloat(view, "rotationY", nowRotationY),
+                    ObjectAnimator.ofFloat(view, "scaleX", lastScaleX, nowScaleX),
+                    ObjectAnimator.ofFloat(view, "scaleY", nowScaleY),
+                    ObjectAnimator.ofFloat(view, "alpha", nowAlpha),
+                    ObjectAnimator.ofFloat(view, "translationX", (float) x), //
+                    ObjectAnimator.ofFloat(view, "translationY", (float) y));//
+            lastScaleX=nowScaleX;
             animationList.add(animatorSet);
         }
-        return  animationList;
+        a.playSequentially(animationList);
+        return  a;
     }
 
 
@@ -723,7 +840,17 @@ public class MoveAnimation {
         /**
          *X轴缩放
          */
-        float scaleX=1;
+        float nowScaleX=1;
+
+        public float getNowScaleX() {
+            return nowScaleX;
+        }
+
+        public float getLastScaleX() {
+            return lastScaleX;
+        }
+
+        float lastScaleX=1;
         /**
          *y轴缩放
          */
@@ -781,9 +908,6 @@ public class MoveAnimation {
             return rotationY;
         }
 
-        public float getScaleX() {
-            return scaleX;
-        }
 
         public float getScaleY() {
             return scaleY;
@@ -824,8 +948,9 @@ public class MoveAnimation {
             return this;
         }
 
-        public AnimationBuild setScaleX(float scaleX) {
-            this.scaleX = scaleX;
+        public AnimationBuild setScaleX(float nowScaleX,float lastScaleX) {
+            this.lastScaleX = lastScaleX;
+            this.nowScaleX=nowScaleX;
             return this;
         }
 

@@ -14,7 +14,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.bcgtgjyb.test.mylibrary.MoveAnimation;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.Keyframe;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 
+import java.io.Console;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +50,10 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+        list=moveAnimation.getCurveData(new float[]{0, 0}, new float[]{200, 200}, 80, 1);
+
+
+
 
 
 
@@ -53,17 +63,27 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "onClick " + button.getScaleX() + "  " + button.getScaleY());
-                moveAnimation.setBoundary(true, boundaryXY);
-                int[] location=new int[2];
-                button.getLocationOnScreen(location);
-                list=moveAnimation.getCurveData(new float[]{0,0}, new float[]{500,500}, 80, 1);
+                AnimatorSet my=new AnimatorSet();
                 List listX=(List)list.get(0);
                 List listY=(List)list.get(1);
-                List aniamtionList=new ArrayList();
-                moveAnimation.getAllAnimationList(aniamtionList, moveAnimation.getBuild().setScaleY(0.2f).setScaleX(0.2f).setAlpha(0.2f).setListXY(listX, listY));
-                moveAnimation.setViewAnimationOnce(button, aniamtionList);
-                Log.i(TAG, "onClick " + button.getScaleX() + "  " + button.getScaleY());
+                List animation=new ArrayList();
+                animation.add(moveAnimation.setAlpha(button, 0.2f, 1000));
+                animation.add(moveAnimation.setRotation(button, 360, 1000));
+                animation.add(moveAnimation.setScaleX(button, 2, 1000));
+                animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
+
+//                moveAnimation.setTranslation(button, listX, listY, 1000).start();
+
+                moveAnimation.setBoundary(true, boundaryXY);
+                List animationList=new ArrayList();
+                AnimatorSet a1=moveAnimation.getAllAnimationList(animationList, moveAnimation.getBuild().setListXY(listX, listY).setRotation(360));
+
+//                animation.add(a1);
+
+                my.playTogether(animation);
+                my.start();
+
+//                moveAnimation.setViewAnimationOnce(button, aniamtionList);
 //                moveAnimation.setCurveMove(new float[]{600, 600}, 300, 0);
 //                moveAnimation.setCircleMove(0,0);
 //                moveAnimation.setAlpha(0.1f);
@@ -78,10 +98,12 @@ public class MainActivity extends ActionBarActivity {
                 List listY=(List)list.get(1);
                 Collections.reverse(listX);
                 Collections.reverse(listY);
-                List animationList=new ArrayList();
-                moveAnimation.getAllAnimationList(animationList, moveAnimation.getBuild().setScaleY(1).setScaleX(1).setAlpha(1).setListXY(listX, listY));
-                moveAnimation.setViewAnimationOnce(button, animationList);
-                Log.i(TAG, "onClick " +button.getScaleX()+"  "+button.getScaleY());
+                List animation=new ArrayList();
+                animation.add(moveAnimation.setAlpha(button, 1, 1000));
+                animation.add(moveAnimation.setRotation(button, 0, 1000));
+                animation.add(moveAnimation.setScaleX(button, 1, 1000));
+                animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
+                moveAnimation.playTogether(animation).start();
             }
         });
         //是否自由移动
