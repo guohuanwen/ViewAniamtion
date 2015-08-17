@@ -111,21 +111,27 @@ public class MovePath {
         double x,y;
         x=x1;
         y=y1;
-        int left=0;
-        if(x1>x2){
-            left=1;
-        }else{
-            left=0;
+        int d=0;
+        if(y1>=y2){
+            if(direction==0){
+                d=0;
+            }else {
+                d=1;
+            }
+        }else {
+            if(direction==0){
+                d=1;
+            }else {
+                d=0;
+            }
         }
-        listX.add((double)0);
-        listY.add((double)0);
-        if(left==0){
-            //x1<=x2
+//        listX.add((double)0);
+//        listY.add((double)0);
             double moveX=(x2-x1)/coordinateNumber;
-            double moveNub=x1+moveX;
+            double moveNub=x1;
             for(int i=0;i<coordinateNumber;i++){
                 if (moveNub<=x2){
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c,d);
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
@@ -142,7 +148,7 @@ public class MovePath {
 
                 }else{
                     moveX=x2-(moveNub-moveX);
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
+                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c,d);
                     x=re[0];
                     y=re[1];
                     if(boundary){
@@ -157,43 +163,7 @@ public class MovePath {
                     break;
                 }
             }
-        }else{
-            //x1>x2
-            double moveX=(x2-x1)/coordinateNumber;
-            double moveNub=x1+moveX;
-            for(int i=0;i<coordinateNumber;i++){
-                if (moveNub>=x2){
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
-                    x=re[0];
-                    y=re[1];
-                    moveNub=moveNub+moveX;
-                    if(boundary){
-                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
-                            listX.add(x);
-                            listY.add(y);
-                        }
-                    }else{
-                        listX.add(x);
-                        listY.add(y);
-                    }
-                }else{
-                    moveX=x2-(moveNub-moveX);
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c);
-                    x=re[0];
-                    y=re[1];
-                    if(boundary){
-                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
-                            listX.add(x);
-                            listY.add(y);
-                        }
-                    }else{
-                        listX.add(x);
-                        listY.add(y);
-                    }
-                    break;
-                }
-            }
-        }
+
 
 
         List list=new ArrayList<List>();
@@ -221,7 +191,7 @@ public class MovePath {
      * @param c
      * @return
      */
-    private double[] calculateMoveCoordinate(double startX,double startY,double moveX,double a,double b,double c){
+    private double[] calculateMoveCoordinate(double startX,double startY,double moveX,double a,double b,double c,int direction){
         double coordinate[]={0,0};
         double x=startX+moveX;
 
@@ -229,7 +199,7 @@ public class MovePath {
         double yy2=Math.sqrt(b*b - 4*x*x - 4*a*x - 4*c)/2 - b/2;
 
         coordinate[0]=x;
-        if(Math.abs(yy1-startY)>Math.abs(yy2-startY)){
+        if(direction==0){
             coordinate[1]=yy2;
         }
         else{

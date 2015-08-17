@@ -26,12 +26,12 @@ public class MyAnimation {
     private int moveVelocity=5;
 
 
-    private MyAnimation(){
+    public MyAnimation(){
 
     }
 
     public MyAnimation(View view){
-        this.view=view;
+//        this.view=view;
     }
 
 //    public static MoveAnimation getInstance(){
