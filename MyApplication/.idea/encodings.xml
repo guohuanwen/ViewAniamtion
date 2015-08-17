@@ -2,6 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MoveAnimation.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MovePath.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyAnimation.java" charset="UTF-8" />
   </component>
 </project>

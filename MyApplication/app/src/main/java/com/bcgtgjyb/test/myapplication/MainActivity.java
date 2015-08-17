@@ -1,26 +1,17 @@
 package com.bcgtgjyb.test.myapplication;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
-
-import com.bcgtgjyb.test.mylibrary.MoveAnimation;
+import com.bcgtgjyb.test.mylibrary.MovePath;
+import com.bcgtgjyb.test.mylibrary.MyAnimation;
 import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.Keyframe;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
-
-import java.io.Console;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,28 +20,29 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
     private Button button;
     private String TAG="MainActivity";
-    private MoveAnimation moveAnimation;
+    private MyAnimation moveAnimation;
     private float[] viewCoordinate=new float[2];
     private int[] boundaryXY=new int[2];
     private Button returnButton;
     private List list=new ArrayList();
+    private int is=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button=(Button)findViewById(R.id.move_button);
         returnButton=(Button)findViewById(R.id.button);
-        moveAnimation=new MoveAnimation(button,getApplicationContext());
+        moveAnimation=new MyAnimation(button);
 //        moveAnimation.setRandomAnimation(true);
 //        Log.d(TAG, "onCreate"+button.getX()+","+button.getY());
 
         WindowManager wm=getWindowManager();
         boundaryXY[0]=wm.getDefaultDisplay().getWidth();
         boundaryXY[1]=wm.getDefaultDisplay().getHeight();
+        final MovePath movePath=new MovePath();
 
 
-
-        list=moveAnimation.getCurveData(new float[]{0, 0}, new float[]{200, 200}, 80, 1);
+        list=movePath.getCurveData(new float[]{200, 200}, 80, 1);
 
 
 
@@ -66,17 +58,20 @@ public class MainActivity extends ActionBarActivity {
                 AnimatorSet my=new AnimatorSet();
                 List listX=(List)list.get(0);
                 List listY=(List)list.get(1);
+                if(is==1){
+                    Collections.reverse(listX);
+                    Collections.reverse(listY);
+                    is=0;
+                }
                 List animation=new ArrayList();
                 animation.add(moveAnimation.setAlpha(button, 0.2f, 1000));
                 animation.add(moveAnimation.setRotation(button, 360, 1000));
                 animation.add(moveAnimation.setScaleX(button, 2, 1000));
                 animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
-
+                animation.add(moveAnimation.setRotationX(button,360,1000));
 //                moveAnimation.setTranslation(button, listX, listY, 1000).start();
 
-                moveAnimation.setBoundary(true, boundaryXY);
-                List animationList=new ArrayList();
-                AnimatorSet a1=moveAnimation.getAllAnimationList(animationList, moveAnimation.getBuild().setListXY(listX, listY).setRotation(360));
+                movePath.setBoundary(button,true, boundaryXY);
 
 //                animation.add(a1);
 
@@ -96,13 +91,17 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 List listX=(List)list.get(0);
                 List listY=(List)list.get(1);
-                Collections.reverse(listX);
-                Collections.reverse(listY);
+                if(is==0){
+                    Collections.reverse(listX);
+                    Collections.reverse(listY);
+                    is=1;
+                }
                 List animation=new ArrayList();
                 animation.add(moveAnimation.setAlpha(button, 1, 1000));
                 animation.add(moveAnimation.setRotation(button, 0, 1000));
                 animation.add(moveAnimation.setScaleX(button, 1, 1000));
                 animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
+                animation.add(moveAnimation.setRotationX(button,0,1000));
                 moveAnimation.playTogether(animation).start();
             }
         });
