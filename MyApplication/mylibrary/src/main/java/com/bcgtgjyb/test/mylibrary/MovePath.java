@@ -17,7 +17,7 @@ public class MovePath {
     /**
      * 随机点的个数
      */
-    private int coordinateNumber=60;
+    private int coordinateNumber=50;
     //屏幕宽高
     private int windowsWight=0;
     private int windowsHeight=0;
@@ -85,23 +85,34 @@ public class MovePath {
         double x2=end[0];
         double y2=end[1];
 
-
         //圆弧中点
         double x3,y3;
-        if(direction==0){
-            x3=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-            y3=y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
-//             x3=-(2*y1*(y1/2 + y2/2 + x1*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2) - x2*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2)) - 2*y2*(y1/2 + y2/2 + x1*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2) - x2*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2)) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-//             y3=y1/2 + y2/2 + x1*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2) - x2*(arc/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))^(1/2);
-        }else if(direction==1){
-            x3=-(2*y1*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-            y3=y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
-//             x3=-(2*y1*(y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - 2*y2*(y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2)) - x1^2 + x2^2 - y1^2 + y2^2)/(2*x1 - 2*x2);
-//             y3=y1/2 + y2/2 - x1*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2) + x2*(arc/(x1^2 - 2*x1*x2 + x2^2 + y1^2 - 2*y1*y2 + y2^2))^(1/2);
-        }else{
-            x3= 121;
-            y3= 78;
-        }
+        double x31=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+        double y31=y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
+        double x32=-(2*y1*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+        double y32=y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
+
+
+            if((x2>x1&&direction==0)||(x2<=x1&&direction==1)){
+                if(y32>y31){
+                    y3=y32;
+                    x3=x32;
+                }else {
+                    y3=y31;
+                    x3=x31;
+                }
+            }
+            else {
+                if(y32<y31){
+                    y3=y32;
+                    x3=x32;
+                }else {
+                    y3=y31;
+                    x3=x31;
+                }
+            }
+
+
 //        Log.i("MoveAnimation","x1="+x1+",y1="+y1+",x2="+x2+",y2="+y2+",arc="+arc+",x3="+x3+",y3="+y3);
         //三点求圆的方程
         double a,b,c;
@@ -111,27 +122,19 @@ public class MovePath {
         double x,y;
         x=x1;
         y=y1;
-        int d=0;
-        if(y1>=y2){
-            if(direction==0){
-                d=0;
-            }else {
-                d=1;
-            }
+        int small=0;
+        if((x2>x1&&direction==0)||(x2<=x1&&direction==1)){
+            small=0;
         }else {
-            if(direction==0){
-                d=1;
-            }else {
-                d=0;
-            }
+            small=1;
         }
 //        listX.add((double)0);
 //        listY.add((double)0);
             double moveX=(x2-x1)/coordinateNumber;
             double moveNub=x1;
             for(int i=0;i<coordinateNumber;i++){
-                if (moveNub<=x2){
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c,d);
+                if ((moveNub<=x2&&x1<=x2)||(moveNub>x2&&x1>x2)){
+                    double[] re=calculateMoveCoordinate(moveNub,a,b,c,small);
                     x=re[0];
                     y=re[1];
                     moveNub=moveNub+moveX;
@@ -147,8 +150,7 @@ public class MovePath {
 
 
                 }else{
-                    moveX=x2-(moveNub-moveX);
-                    double[] re=calculateMoveCoordinate(x,y,moveX,a,b,c,d);
+                    double[] re=calculateMoveCoordinate(moveNub,a,b,c,small);
                     x=re[0];
                     y=re[1];
                     if(boundary){
@@ -163,8 +165,6 @@ public class MovePath {
                     break;
                 }
             }
-
-
 
         List list=new ArrayList<List>();
         list.add(listX);
@@ -183,27 +183,25 @@ public class MovePath {
 
     /**
      * 给定x计算圆上坐标
-     * @param startX
-     * @param startY
      * @param moveX
      * @param a
      * @param b
      * @param c
      * @return
      */
-    private double[] calculateMoveCoordinate(double startX,double startY,double moveX,double a,double b,double c,int direction){
+    private double[] calculateMoveCoordinate(double moveX,double a,double b,double c,int small){
         double coordinate[]={0,0};
-        double x=startX+moveX;
+        double x=moveX;
 
         double yy1=- b/2 - Math.sqrt(b*b - 4*x*x - 4*a*x - 4*c)/2;
         double yy2=Math.sqrt(b*b - 4*x*x - 4*a*x - 4*c)/2 - b/2;
 
         coordinate[0]=x;
-        if(direction==0){
-            coordinate[1]=yy2;
+        if((small==0&&yy1>yy2)||(small==1&&yy1<=yy2)){
+            coordinate[1]=yy1;
         }
         else{
-            coordinate[1]=yy1;
+            coordinate[1]=yy2;
         }
         return coordinate;
     }

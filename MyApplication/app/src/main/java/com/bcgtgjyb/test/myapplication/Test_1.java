@@ -43,32 +43,34 @@ public class Test_1 extends ActionBarActivity {
     class MyButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            float y=b2.getY();
-            float x=b1.getX();
-            float[] coordinate=new float[]{x,y};
-            MovePath movePath=new MovePath();
-
-            List b3List=movePath.getCurveData(getTranslation(b3, coordinate), 50, 1);
-            List b2List=movePath.getCurveData(getTranslation(b2, coordinate), 50, 1);
-            List b4List=movePath.getCurveData(getTranslation(b4, coordinate), 50, 1);
-            List b5List=movePath.getCurveData(getTranslation(b5, coordinate), 50, 0);
-
-            List animationList=new ArrayList();
-            MyAnimation myAnimation = new MyAnimation();
-            animationList.add(myAnimation.setAlpha(b2,0,1000));
-            animationList.add(myAnimation.setAlpha(b3,0,1000));
-            animationList.add(myAnimation.setTranslation(b3, (List) b3List.get(0), (List) b3List.get(1), 1000));
-            animationList.add(myAnimation.setTranslation(b2, (List) b2List.get(0), (List) b2List.get(1), 1000));
-            animationList.add(myAnimation.setAlpha(b4,0,1000));
-            animationList.add(myAnimation.setAlpha(b5,0,1000));
-            animationList.add(myAnimation.setTranslation(b4, (List) b4List.get(0), (List) b4List.get(1), 1000));
-            animationList.add(myAnimation.setTranslation(b5, (List) b5List.get(0), (List) b5List.get(1), 1000));
-            myAnimation.playTogether(animationList).start();
-
-
-
+            setOpen();
 
         }
+    }
+
+    private void setOpen(){
+        float y=b2.getY();
+        float x=b1.getX();
+        float[] coordinate=new float[]{x,y};
+        MovePath movePath=new MovePath();
+        List b3List=movePath.getCurveData(getTranslation(b3, coordinate), 30, 1);
+        List b2List=movePath.getCurveData(getTranslation(b2, coordinate), 30, 1);
+
+        List b4List=movePath.getCurveData(getTranslation(b4, coordinate), 30, 1);
+        logList(b4List);
+        List b5List=movePath.getCurveData(getTranslation(b5, coordinate), 30, 1);
+        List animationList=new ArrayList();
+        MyAnimation myAnimation = new MyAnimation();
+        animationList.add(myAnimation.setAlpha(b2,0,1000));
+        animationList.add(myAnimation.setAlpha(b3,0,1000));
+        animationList.add(myAnimation.setTranslation(b2, (List) b2List.get(0), (List) b2List.get(1), 1000));
+        animationList.add(myAnimation.setTranslation(b3, (List) b3List.get(0), (List) b3List.get(1), 1000));
+
+        animationList.add(myAnimation.setAlpha(b4,0,1000));
+        animationList.add(myAnimation.setAlpha(b5,0,1000));
+        animationList.add(myAnimation.setTranslation(b4, (List) b4List.get(0), (List) b4List.get(1), 1000));
+        animationList.add(myAnimation.setTranslation(b5, (List) b5List.get(0), (List) b5List.get(1), 1000));
+        myAnimation.playTogether(animationList).start();
     }
 
     private float[] getTranslation(View view,float[] endCoordinate){
@@ -79,6 +81,18 @@ public class Test_1 extends ActionBarActivity {
         float translationY=endCoordinate[1]-y;
         Log.i(TAG, "getTranslation translationX Y"+translationX+"   "+translationY);
         return new float[]{translationX,translationY};
+    }
+
+    private  void logList(List l){
+        List listX=new ArrayList();
+        List listY=new ArrayList();
+        for (int i=0;i<l.size();i++){
+            listX=(List)l.get(0);
+            listY=(List)l.get(1);
+        }
+        for (int i=0;i<listX.size();i++){
+            Log.i(TAG, "logList x y  "+ listX.get(i)+"   "+listY.get(i));
+        }
     }
 
 
