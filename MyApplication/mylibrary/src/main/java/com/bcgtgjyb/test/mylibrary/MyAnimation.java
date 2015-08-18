@@ -132,7 +132,9 @@ public class MyAnimation {
         AnimatorSet a=new AnimatorSet();
         List list1=new ArrayList();
         List list2=new ArrayList();
-        float number=listX.size();
+        float number=listX.size()-1;
+
+
         for (int i = 0; i < listX.size(); i++) {
             double y = (double) listY.get(i);
             double x = (double) listX.get(i);
@@ -141,6 +143,7 @@ public class MyAnimation {
             list1.add(kx);
             list2.add(ky);
         }
+
         Keyframe[] kx=(Keyframe[])(list1.toArray(new Keyframe[list1.size()]));
         Keyframe[] ky=(Keyframe[])(list2.toArray(new Keyframe[list2.size()]));
         PropertyValuesHolder p1=PropertyValuesHolder.ofKeyframe("translationX", kx);

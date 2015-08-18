@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
         final MovePath movePath=new MovePath();
 
 
-        list=movePath.getCurveData(new float[]{200, 200}, 80, 1);
+        list=movePath.getCurveData(new float[]{200, 200}, 40, 1);
 
 
 

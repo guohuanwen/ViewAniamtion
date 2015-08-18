@@ -35,29 +35,133 @@ public class MovePath {
     public List<List> getRandomDate(int moveScope,int param) {
         List x = new ArrayList<Object>();
         List y = new ArrayList<Object>();
-        float m;
-        float n;
         Random random = new Random();
         //定义半径
         float R = moveScope;
-        float x1 =0f;
-        float y1 =0f;
-        float x2=0f;
-        float y2=0f;
-        for (int i = 0; i < param; i++) {
-            x2 = (random.nextFloat()*300) % R;
-            y2 = (float) Math.sqrt((R * R - x2 * x2));
-            m = x2 - x1;
-            n = y2 - y1;
-            x.add(m);
-            y.add(n);
-            x2 = x1;
-            y2 = y1;
+        double x1=0;
+        double y1=R;
+        double x2=-Math.cos(18)*R;
+        double y2=Math.sin(18)*R;
+        double x3=-Math.cos(54)*R;
+        double y3=-Math.sin(54)*R;
+        double x4=Math.cos(54)*R;
+        double y4=-Math.sin(54)*R;
+        double x5=Math.cos(18)*R;
+        double y5=Math.sin(18)*R;
+
+        switch (param){
+            case 1:
+                x.add((double)0);
+                x.add(x1);
+                x.add(x3);
+                x.add(x5);
+                x.add(x2);
+                x.add(x4);
+                x.add((double)0);
+
+                y.add((double)0);
+                y.add(y1);
+                y.add(y3);
+                y.add(y5);
+                y.add(y2);
+                y.add(y4);
+                y.add((double)0);
+                break;
+            case 2:
+                x.add((double)0);
+//                x.add(x1);
+                x.add(x3);
+                x.add(x5);
+                x.add(x2);
+                x.add(x4);
+                x.add(x1);
+                x.add(x3);
+                x.add((double)0);
+                y.add((double)0);
+//                y.add(y1);
+                y.add(y3);
+                y.add(y5);
+                y.add(y2);
+                y.add(y4);
+                y.add(y1);
+                y.add(y3);
+                y.add((double)0);
+                break;
+            case 3:
+                x.add((double)0);
+//                x.add(x1);
+//                x.add(x3);
+                x.add(x5);
+                x.add(x2);
+                x.add(x4);
+                x.add(x1);
+                x.add(x3);
+                x.add(x5);
+                x.add((double)0);
+                y.add((double)0);
+//                y.add(y1);
+//                y.add(y3);
+                y.add(y5);
+                y.add(y2);
+                y.add(y4);
+                y.add(y1);
+                y.add(y3);
+                y.add(y5);
+                y.add((double)0);
+                break;
+            case 4:
+                x.add((double)0);
+//                x.add(x1);
+//                x.add(x3);
+//                x.add(x5);
+                x.add(x2);
+                x.add(x4);
+                x.add(x1);
+                x.add(x3);
+                x.add(x5);
+                x.add(x2);
+                x.add((double)0);
+                y.add((double)0);
+//                y.add(y1);
+//                y.add(y3);
+//                y.add(y5);
+                y.add(y2);
+                y.add(y4);
+                y.add(y1);
+                y.add(y3);
+                y.add(y5);
+                y.add(y2);
+                y.add((double)0);
+                break;
+            default:
+                x.add((double)0);
+//                x.add(x1);
+//                x.add(x3);
+//                x.add(x5);
+//                x.add(x2);
+                x.add(x4);
+                x.add(x1);
+                x.add(x3);
+                x.add(x5);
+                x.add(x2);
+                x.add(x4);
+                x.add((double)0);
+                y.add((double)0);
+//                y.add(y1);
+//                y.add(y3);
+//                y.add(y5);
+//                y.add(y2);
+                y.add(y4);
+                y.add(y1);
+                y.add(y3);
+                y.add(y5);
+                y.add(y2);
+                y.add(y4);
+                y.add((double)0);
+                break;
         }
-        m = 0f-x2;
-        n = 0f-y2;
-        x.add(m);
-        y.add(n);
+
+
         List re = new ArrayList<List>();
         re.add(x);
         re.add(y);
