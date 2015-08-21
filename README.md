@@ -15,11 +15,10 @@ Usage
 =
 Gradle
 -
-dependencies {
-        compile 'com.nineoldandroids:library:2.4.0'
-        compile 'com.guohuanwen.ViewAniamtion:mylibrary:1.0'
-        compile 'com.daimajia.easing:library:1.0.1@aar'
-}
+dependencies {<br>
+        compile 'com.nineoldandroids:library:2.4.0'<br>
+        compile 'com.guohuanwen.ViewAniamtion:mylibrary:1.0@aar'<br>
+}<br>
 
 
 
