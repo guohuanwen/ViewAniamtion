@@ -31,18 +31,18 @@ Usage
 
 dont move animation(button is your view)
 -
-1.AnimatorSet animatorSet=new AnimatorSet();
-2.MyAnimation myAnimation=new MyAnimation();
-3.List list=new ArrayList();
-4.list.add(moveAnimation.setAlpha(button, 0.2f, 1000));
-5.list.add(moveAnimation.setRotation(button, 360, 1000));
-6.list.add(moveAnimation.setScaleX(button, 2, 1000));
-7.animatorSet.playTogether(list);
-8.animatorSet.start();
+    AnimatorSet animatorSet=new AnimatorSet();
+    MyAnimation myAnimation=new MyAnimation();
+    List list=new ArrayList();
+    list.add(moveAnimation.setAlpha(button, 0.2f, 1000));
+    list.add(moveAnimation.setRotation(button, 360, 1000));
+    list.add(moveAnimation.setScaleX(button, 2, 1000));
+    animatorSet.playTogether(list);
+    animatorSet.start();
 
 move view
 -
-AnimatorSet animatorSet=new AnimatorSet();
+    AnimatorSet animatorSet=new AnimatorSet();
 MyAnimation myAnimation=new MyAnimation();
 MovePath movePath=new MovePath();
 //return List of coordinate
