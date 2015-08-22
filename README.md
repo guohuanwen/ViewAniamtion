@@ -18,18 +18,18 @@ Usage
 
 *methd
 -
-    >MyAnimation 
-    >>setScaleX
-    >>setScaleY
-    >>setRotation
-    >>setRotationX
-    >>setRotationY
-    >>setAlpha
-    >>setTranslation
-    <br>
-    >MovePath 
-    >>getRandomDate
-    >>getCurveData
+>MyAnimation 
+>>setScaleX
+>>setScaleY
+>>setRotation
+>>setRotationX
+>>setRotationY
+>>setAlpha
+>>setTranslation
+<br>
+>MovePath 
+>>getRandomDate
+>>getCurveData
 
 dont move animation(button is your view)
 -
