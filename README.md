@@ -6,7 +6,7 @@ i did not finish it at this time<br>
 Demo
 ==
 the Demo of the branch:20150817<br>
-![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/view.gif)<br>
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/gif.gif)<br>
 <br>
 <br>
 
