@@ -172,11 +172,12 @@ public class MovePath {
     /**
      * 获取曲线数据
      * @param end
-     * @param arc
      * @param direction
      * @return
      */
-    public List<List<Double>> getCurveData(float[] end,int arc,int direction){
+    public List<List<Double>> getCurveData(float[] end,int R,int direction){
+
+
 
         List listX=new ArrayList<Long>();
         List listY=new ArrayList<Long>();
@@ -188,89 +189,158 @@ public class MovePath {
         //结束点坐标
         double x2=end[0];
         double y2=end[1];
+        double r=Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        if(R<r/2){
+            R=(int)r/2;
+        }
 
         //圆弧中点
-        double x3,y3;
-        double x31=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-        double y31=y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
-        double x32=-(2*y1*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-        double y32=y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
+//        double x3,y3;
+//        double x31=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+//        double y31=y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
+//        double x32=-(2*y1*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+//        double y32=y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
 
-
-            if((x2>x1&&direction==0)||(x2<=x1&&direction==1)){
-                if(y32>y31){
-                    y3=y32;
-                    x3=x32;
+        //圆心坐标
+        double x0;
+        double y0;
+        double x01= -(2*y1*(y1/2 + y2/2 + (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 - (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2) - 2*y2*(y1/2 + y2/2 + (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 - (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+        double y01= y1/2 + y2/2 + (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 - (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2;
+        double x02=-(2*y1*(y1/2 + y2/2 - (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 + (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2) - 2*y2*(y1/2 + y2/2 - (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 + (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
+        double y02=y1/2 + y2/2 - (x1*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2 + (x2*Math.sqrt(-(x1 * x1 - 4 * R * R - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2) / (x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2 + y2 * y2)))/2;
+        if((x2>x1&&direction==0)||(x2<=x1&&direction==1)){
+                if(y02<y01){
+                    y0=y02;
+                    x0=x02;
                 }else {
-                    y3=y31;
-                    x3=x31;
+                    y0=y01;
+                    x0=x01;
                 }
             }
             else {
-                if(y32<y31){
-                    y3=y32;
-                    x3=x32;
+                if(y02>y01){
+                    y0=y02;
+                    x0=x02;
                 }else {
-                    y3=y31;
-                    x3=x31;
+                    y0=y01;
+                    x0=x01;
                 }
             }
 
-
-//        Log.i("MoveAnimation","x1="+x1+",y1="+y1+",x2="+x2+",y2="+y2+",arc="+arc+",x3="+x3+",y3="+y3);
-        //三点求圆的方程
-        double a,b,c;
-        a =-(x1*x1*y2 - x1*x1*y3 - x2*x2*y1 + x2*x2*y3 + x3*x3*y1 - x3*x3*y2 + y1*y1*y2 - y1*y1*y3 - y1*y2*y2 + y1*y3*y3 + y2*y2*y3 - y2*y3*y3)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
-        b =-(x1*x1*x3 - x1*x1*x2 + x1*x2*x2 - x1*x3*x3 + x1*y2*y2 - x1*y3*y3 - x2*x2*x3 + x2*x3*x3 - x2*y1*y1 + x2*y3*y3 + x3*y1*y1 - x3*y2*y2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
-        c =(x1*x1*x3*y2 - x1*x1*x2*y3 + x1*x2*x2*y3 - x1*x3*x3*y2 + x1*y2*y2*y3 - x1*y2*y3*y3 - x2*x2*x3*y1 + x2*x3*x3*y1 - x2*y1*y1*y3 + x2*y1*y3*y3 + x3*y1*y1*y2 - x3*y1*y2*y2)/(x1*y2 - x2*y1 - x1*y3 + x3*y1 + x2*y3 - x3*y2);
-        double x,y;
-        x=x1;
-        y=y1;
-        int small=0;
-        if((x2>x1&&direction==0)||(x2<=x1&&direction==1)){
-            small=0;
-        }else {
-            small=1;
+        if(Double.isNaN(x0)){
+            x0=(x1+x2)/2;
         }
-//        listX.add((double)0);
-//        listY.add((double)0);
-            double moveX=(x2-x1)/coordinateNumber;
-            double moveNub=x1;
-            for(int i=0;i<coordinateNumber;i++){
-                if ((moveNub<=x2&&x1<=x2)||(moveNub>x2&&x1>x2)){
-                    double[] re=calculateMoveCoordinate(moveNub,a,b,c,small);
-                    x=re[0];
-                    y=re[1];
-                    moveNub=moveNub+moveX;
-                    if(boundary){
-                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
-                            listX.add(x);
-                            listY.add(y);
-                        }
-                    }else{
-                        listX.add(x);
-                        listY.add(y);
-                    }
+        if(Double.isNaN(y0)){
+            y0=(y1+y2)/2;
+        }
+
+        Log.i(TAG, "getCurveData x0y0  "+ x0+ "  "+y0);
 
 
-                }else{
-                    double[] re=calculateMoveCoordinate(moveNub,a,b,c,small);
-                    x=re[0];
-                    y=re[1];
-                    if(boundary){
-                        if(isBoundary(new float[]{(float)(Math.abs(x)),(float)(Math.abs(y))})){
-                            listX.add(x);
-                            listY.add(y);
-                        }
-                    }else{
-                        listX.add(x);
-                        listY.add(y);
-                    }
-                    break;
-                }
+        double paramX1=Math.abs(y1 - y0)/R;
+        if(paramX1<-1.0){
+            paramX1=-1.0;
+        }else if(paramX1>1.0){
+            paramX1=1.0;}
+        double paramX2=Math.abs(y2 - y0)/R;
+        if(paramX2<-1.0){
+            paramX2=-1.0;
+        }else if(paramX2>1.0){
+            paramX2=1.0;}
+
+        double a=Math.asin(paramX1);
+        double b=Math.asin(paramX2);
+
+
+        if(x1>x0&&y1>y0){
+            a=a;
+        }else if(x1<x0&&y1>y0){
+            a=pi-a;
+        }else if(x1<x0&&y1<y0){
+            a=a+pi;
+        }else if(x1>x0&&y1<y0){
+            a=2*pi-a;
+        }else if(x1>x0&&y1==y0){
+            a=0;
+        }else if(x1==x0&&y1>y0){
+            a=pi/2;
+        }else if(x1<x0&&y1==y0){
+            a=pi;
+        }else if(x1==x0&&y1<y0){
+            a=pi*1.5;
+        }
+
+        if(x2>x0&&y2>y0){
+            b=b;
+        }else if(x2<x0&&y2>y0){
+            b=pi-b;
+        }else if(x2<x0&&y2<y0){
+            b=b+pi;
+        }else if(x2>x0&&y2<y0){
+            b=2*pi-b;
+        }else if(x2>x0&&y2==y0){
+            b=0;
+        }else if(x2==x0&&y2>y0){
+            b=pi/2;
+        }else if(x2<x0&&y2==y0){
+            b=pi;
+        }else if(x2==x0&&y2<y0){
+            b=pi*1.5;
+        }
+
+        Log.i(TAG, "getCurveData " +a+ "  "+b);
+        Log.i(TAG, "getCurveData x0 y0 x1 y1 x2 y2 " +x0 +","+y0+","+x1+","+y1+","+x2+","+y2);
+        listX.add((double)0);
+        listY.add((double)0);
+
+        if((direction==0&&b>a)){
+            double nub=(a+2*pi-b)/30;
+            double n=a+2*pi;
+            while (n>=b){
+                double x=x0+R*Math.cos(n);
+                double y=y0+R*Math.sin(n);
+                Log.i(TAG, "getCurveData xy1  " +x+ "  "+ y);
+                listX.add(x);
+                listY.add(y);
+                n=n-nub;
             }
+        }else if ((direction==0&&b<=a)){
+            double nub=(a-b)/30;
+            double n=a;
+            while (n>=b){
+                double x=x0+R*Math.cos(n);
+                double y=y0+R*Math.sin(n);
+                Log.i(TAG, "getCurveData xy2  " +x+ "  "+ y);
+                listX.add(x);
+                listY.add(y);
+                n=n-nub;
+            }
+        }else if(direction==1&&b>a){
+            double nub=(b-a)/30;
+            double n=a;
+            while (n<=b){
+                double x=x0+R*Math.cos(n);
+                double y=y0+R*Math.sin(n);
+                Log.i(TAG, "getCurveData xy3  " +x+ "  "+ y);
+                listX.add(x);
+                listY.add(y);
+                n=n+nub;
+            }
+        }else if(direction==1&&b<=a){
+            double nub=(b-(a-pi*2))/30;
+            double n=(a-pi*2);
+            while (n<=b){
+                double x=x0+R*Math.cos(n);
+                double y=y0+R*Math.sin(n);
+                Log.i(TAG, "getCurveData xy4  " +x+ "  "+ y);
+                listX.add(x);
+                listY.add(y);
+                n=n+nub;
+            }
+        }
 
         List list=new ArrayList<List>();
+        Log.i(TAG, "getCurveData "+listX.size());
         list.add(listX);
         list.add(listY);
         return list;
@@ -373,12 +443,12 @@ public class MovePath {
 
 
     //传入圆心坐标
-    public List getCircleData(View view,float x1,float y1,float x0,float y0){
+    public List getCircleData(View view,float[] coordinate){
         float number=0.1f;
-//        float[] location=getCoordinateInFartherView();
-        //起始点坐标
-//        double x1=location[0];
-//        double y1=location[1];
+        double x1=0;
+        double y1=0;
+        double x0=coordinate[0];
+        double y0=coordinate[1];
         Log.i(TAG, "getCircleData x y: " + x1+"  ,"+y1);
 
         double R=Math.sqrt((x1-x0)*(x1-x0)+(y1-y0)*(y1-y0));
@@ -424,9 +494,8 @@ public class MovePath {
             i=i+number;
         }
 
-        float[] orinage=getCoordinateOnFartherView(view);
-        listX.add((double)orinage[0]);
-        listY.add((double)orinage[1]);
+        listX.add((double)0);
+        listY.add((double)0);
 
 
         list.add(listX);
