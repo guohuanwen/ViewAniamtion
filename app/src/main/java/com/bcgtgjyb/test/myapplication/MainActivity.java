@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        moveAnimation=new MyAnimation(button);
+        moveAnimation=new MyAnimation();
 
         WindowManager wm=getWindowManager();
         boundaryXY[0]=wm.getDefaultDisplay().getWidth();
