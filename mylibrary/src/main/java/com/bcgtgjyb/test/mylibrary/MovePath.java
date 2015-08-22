@@ -27,10 +27,11 @@ public class MovePath {
 
 
     /**
+     * get coordinate of random animation
      * 模拟随机运动，返回运动坐标
      * 以初始位置为中心，以定值为半径做圆，在圆内生成随机数，返回一串随即数，最后一个为初始位置
-     * @param param
-     * @return
+     * @param param  the animation's scope
+     * @return List list;List x=(List)list.get(0);List y=(List)list.get(1);
      */
     public List<List> getRandomDate(int moveScope,int param) {
         List x = new ArrayList<Object>();
@@ -170,10 +171,12 @@ public class MovePath {
 
 
     /**
+     * get the curve‘s coordinate(the curve is a part of a circle)
      * 获取曲线数据
-     * @param end
-     * @param direction
-     * @return
+     * @param end the view finally coordinate
+     * @param R the circle's radius
+     * @param direction if direction is 1,clockwise direction; 0,counter-clockwise
+     * @return List list,  List x=(List)list.get(0),List y=(List)list.get(1);
      */
     public List<List<Double>> getCurveData(float[] end,int R,int direction){
 
@@ -194,12 +197,6 @@ public class MovePath {
             R=(int)r/2;
         }
 
-        //圆弧中点
-//        double x3,y3;
-//        double x31=-(2*y1*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-//        double y31=y1/2 + y2/2 + arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) - arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
-//        double x32=-(2*y1*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - 2*y2*(y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2))) - x1*x1 + x2*x2 - y1*y1 + y2*y2)/(2*x1 - 2*x2);
-//        double y32=y1/2 + y2/2 - arc*x1*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2)) + arc*x2*Math.sqrt(1/(x1*x1 - 2*x1*x2 + x2*x2 + y1*y1 - 2*y1*y2 + y2*y2));
 
         //圆心坐标
         double x0;
@@ -346,6 +343,12 @@ public class MovePath {
         return list;
     }
 
+    /**
+     * set the boundary of the view's animation
+     * @param view set you view
+     * @param boundary if boundary is true,animation have boundary;false,not
+     * @param boundaryXY set the boundary's width and height
+     */
     public void setBoundary(View view,boolean boundary,int[] boundaryXY) {
         windowsWight = boundaryXY[0];
         windowsHeight = boundaryXY[1];
@@ -355,30 +358,7 @@ public class MovePath {
         this.boundary = boundary;
     }
 
-    /**
-     * 给定x计算圆上坐标
-     * @param moveX
-     * @param a
-     * @param b
-     * @param c
-     * @return
-     */
-    private double[] calculateMoveCoordinate(double moveX,double a,double b,double c,int small){
-        double coordinate[]={0,0};
-        double x=moveX;
 
-        double yy1=- b/2 - Math.sqrt(b*b - 4*x*x - 4*a*x - 4*c)/2;
-        double yy2=Math.sqrt(b*b - 4*x*x - 4*a*x - 4*c)/2 - b/2;
-
-        coordinate[0]=x;
-        if((small==0&&yy1>yy2)||(small==1&&yy1<=yy2)){
-            coordinate[1]=yy1;
-        }
-        else{
-            coordinate[1]=yy2;
-        }
-        return coordinate;
-    }
 
     //获取屏幕宽高，获取view四点坐标
     private void setMyBoundary(View view){
@@ -443,6 +423,13 @@ public class MovePath {
 
 
     //传入圆心坐标
+
+    /**
+     *get the coordinate of animation on a circle
+     * @param view set your view
+     * @param coordinate set coordinate of the center of the circle
+     * @return List list,List x=(List)list.get(0),List y=(List)list.get(1);
+     */
     public List getCircleData(View view,float[] coordinate){
         float number=0.1f;
         double x1=0;
