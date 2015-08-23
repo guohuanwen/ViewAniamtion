@@ -26,36 +26,42 @@ public class MyAnimation {
      * @param view set your view
      * @param x x's coordinate
      * @param y y's coordinate
+     * @param initCoordinate animation of view start coordinate
      * @param duration animation's duration
      * @return AnimatorSet
      */
-    private AnimatorSet setMoveTo(View view,int x,int y,int duration){
+    private AnimatorSet setMoveTo(View view,int x,int y,float[] initCoordinate,int duration){
         AnimatorSet animatorSet = new AnimatorSet();
-        PropertyValuesHolder p1=PropertyValuesHolder.ofFloat("x", (float) x);
-        PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("y", (float) y);
+        float xIn=initCoordinate[0];
+        float yIn=initCoordinate[1];
+        PropertyValuesHolder p1=PropertyValuesHolder.ofFloat("x", (float) (x+xIn));
+        PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("y", (float) (y+yIn));
         animatorSet.play(ObjectAnimator.ofPropertyValuesHolder(view, p1, p2));
         animatorSet.setDuration(duration);
         return animatorSet;
     }
 
     /**
-     * make button move on list's coordinate
+     * make button move to list's coordinate
      * @param view set your view
      * @param listX x's coordinate
      * @param listY y's coordinate
+     * @param initCoordinate animation of view start coordinate
      * @param duration animation's duration
      * @return AnimatorSet
      */
-    public AnimatorSet setMoveto(View view,List listX,List listY,int duration){
+    public AnimatorSet setMoveTo(View view,List listX,List listY,float[] initCoordinate,int duration){
         AnimatorSet a=new AnimatorSet();
         List list1=new ArrayList();
         List list2=new ArrayList();
         float number=listX.size()-1;
+        float xIn=initCoordinate[0];
+        float yIn=initCoordinate[1];
         for (int i = 0; i < listX.size(); i++) {
             double y = (double) listY.get(i);
             double x = (double) listX.get(i);
-            Keyframe kx=Keyframe.ofFloat((i/number),(float)x);
-            Keyframe ky=Keyframe.ofFloat((i/number),(float)y);
+            Keyframe kx=Keyframe.ofFloat((i/number),(float)(x+xIn));
+            Keyframe ky=Keyframe.ofFloat((i/number),(float)(y+yIn));
             list1.add(kx);
             list2.add(ky);
         }

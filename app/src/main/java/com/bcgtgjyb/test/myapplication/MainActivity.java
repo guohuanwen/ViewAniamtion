@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
     private List list=new ArrayList();
     private int is=0;
     private Button next;
+    private float[] startCoordinate=new float[2];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +50,13 @@ public class MainActivity extends ActionBarActivity {
         boundaryXY[0]=wm.getDefaultDisplay().getWidth();
         boundaryXY[1]=wm.getDefaultDisplay().getHeight();
         final MovePath movePath=new MovePath();
-        list=movePath.getCurveData(new float[]{-100, 0},30, 1);
+        list=movePath.getCurveData(new float[]{200, 0},30, 0);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                startCoordinate[0]=button.getX();
+                startCoordinate[1]=button.getY();
                 AnimatorSet my=new AnimatorSet();
                 List listX=(List)list.get(0);
                 List listY=(List)list.get(1);
@@ -65,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
                 animation.add(moveAnimation.setAlpha(button, 0.2f, 1000));
                 animation.add(moveAnimation.setRotation(button, 360, 1000));
                 animation.add(moveAnimation.setScaleX(button, 2, 1000));
-                animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
+                animation.add(moveAnimation.setMoveTo(button, listX, listY, startCoordinate, 1000));
                 animation.add(moveAnimation.setRotationX(button,360,1000));
                 movePath.setBoundary(button,true, boundaryXY);
                 my.playTogether(animation);
@@ -87,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
                 animation.add(moveAnimation.setAlpha(button, 1, 1000));
                 animation.add(moveAnimation.setRotation(button, 0, 1000));
                 animation.add(moveAnimation.setScaleX(button, 1, 1000));
-                animation.add(moveAnimation.setTranslation(button, listX, listY, 1000));
+                animation.add(moveAnimation.setMoveTo(button, listX, listY,startCoordinate,1000));
                 animation.add(moveAnimation.setRotationX(button, 0, 1000));
                 moveAnimation.playTogether(animation).start();
             }
@@ -109,6 +113,7 @@ public class MainActivity extends ActionBarActivity {
         returnButton=(Button)findViewById(R.id.button);
         next=(Button)findViewById(R.id.next);
         circle=(Button)findViewById(R.id.circle);
+
     }
 
 
