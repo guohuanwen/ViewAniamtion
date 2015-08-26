@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
         boundaryXY[0]=wm.getDefaultDisplay().getWidth();
         boundaryXY[1]=wm.getDefaultDisplay().getHeight();
         final MovePath movePath=new MovePath();
-        list=movePath.getCurveData(new float[]{200, 0},30, 0);
+        list=movePath.getCurveData(new float[]{400, 0},30, 0);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
