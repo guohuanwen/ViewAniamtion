@@ -1,20 +1,20 @@
 # ViewAnimation
-animation of View<br>
----
+<br>
+<br>
+##animation of View<br>
 i did not finish it at this time<br>
 <br>
-#Demo
-the Demo of the branch:20150817<br>
+##Demo
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)<br>
 <br>
 <br>
 
 
-#Usage
+##Usage
 <br>
-##cope mylibrary to your project
+####cope mylibrary to your project
 <br>
-##methd
+###methd
 ####MyAnimation 
 #####setScaleX
 #####setScaleY
@@ -30,8 +30,8 @@ the Demo of the branch:20150817<br>
 #####getCurveData
 #####getCirlcrData
 
-dont move animation(button is your view)
--
+##dont move animation(button is your view)
+
     AnimatorSet animatorSet=new AnimatorSet();
     MyAnimation myAnimation=new MyAnimation();
     List list=new ArrayList();
@@ -41,8 +41,7 @@ dont move animation(button is your view)
     animatorSet.playTogether(list);
     animatorSet.start();
 
-move view
--
+##move view
     AnimatorSet animatorSet=new AnimatorSet();
     MyAnimation myAnimation=new MyAnimation();
     MovePath movePath=new MovePath();
