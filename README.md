@@ -3,21 +3,18 @@ animation of View<br>
 ---
 i did not finish it at this time<br>
 <br>
-Demo
-==
+#Demo
 the Demo of the branch:20150817<br>
-![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/gif.gif)<br>
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)<br>
 <br>
 <br>
 
 
-Usage
-=
-*cope mylibrary to your project
--
-
-*methd
--
+#Usage
+<br>
+##cope mylibrary to your project
+<br>
+##methd
 ####MyAnimation 
 #####setScaleX
 #####setScaleY
@@ -26,6 +23,7 @@ Usage
 #####setRotationY
 #####setAlpha
 #####setTranslation
+<br>
 <br>
 ####MovePath 
 #####getRandomData
@@ -63,6 +61,23 @@ move view
     animatorSet.start();
 
 
+
+
+
+##License
+    Copyright 2014 guohuanwen
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 
 
