@@ -1,5 +1,6 @@
 # ViewAnimation
 <br>
+This is a library of the AnimatorSet,it has three move path and many animation,you can make a easy animation of view by youself.
 <br>
 ##animation of View<br>
 i did not finish it at this time<br>
