@@ -21,6 +21,14 @@ public class MyAnimation {
     public MyAnimation(){
     }
 
+
+private AnimationSet setMoveTo(View view,int x,int y,float[] initCoordinate,int duration){
+    setMoveTo(view,x,y,initCoordinate,new AccelerateInterpolator(0));
+    
+    
+}
+
+
     /**
      * make button move to (x,y)
      * @param view set your view
@@ -30,7 +38,7 @@ public class MyAnimation {
      * @param duration animation's duration
      * @return AnimatorSet
      */
-    private AnimatorSet setMoveTo(View view,int x,int y,float[] initCoordinate,int duration){
+    public AnimatorSet setMoveTo(View view,int x,int y,float[] initCoordinate,int duration,AccelerateInterpolator acc){
         AnimatorSet animatorSet = new AnimatorSet();
         float xIn=initCoordinate[0];
         float yIn=initCoordinate[1];
@@ -38,6 +46,7 @@ public class MyAnimation {
         PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("y", (float) (y+yIn));
         animatorSet.play(ObjectAnimator.ofPropertyValuesHolder(view, p1, p2));
         animatorSet.setDuration(duration);
+        anim.setInterpolator(new BounceInterpolator());  
         return animatorSet;
     }
 
