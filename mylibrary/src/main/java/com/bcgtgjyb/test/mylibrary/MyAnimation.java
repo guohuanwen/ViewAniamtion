@@ -4,6 +4,10 @@ package com.bcgtgjyb.test.mylibrary;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AnimationSet;
+import android.view.animation.BounceInterpolator;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.Keyframe;
@@ -23,9 +27,9 @@ public class MyAnimation {
 
 
 private AnimationSet setMoveTo(View view,int x,int y,float[] initCoordinate,int duration){
-    setMoveTo(view,x,y,initCoordinate,new AccelerateInterpolator(0));
+//    setMoveTo(view,x,y,initCoordinate,new Li);
     
-    
+    return null;
 }
 
 
@@ -46,7 +50,7 @@ private AnimationSet setMoveTo(View view,int x,int y,float[] initCoordinate,int 
         PropertyValuesHolder p2=PropertyValuesHolder.ofFloat("y", (float) (y+yIn));
         animatorSet.play(ObjectAnimator.ofPropertyValuesHolder(view, p1, p2));
         animatorSet.setDuration(duration);
-        anim.setInterpolator(new BounceInterpolator());  
+        animatorSet.setInterpolator(acc);
         return animatorSet;
     }
 
