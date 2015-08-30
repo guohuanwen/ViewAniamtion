@@ -9,9 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import com.bcgtgjyb.test.mylibrary.MovePath;
 import com.bcgtgjyb.test.mylibrary.MyAnimation;
+import com.bcgtgjyb.test.mylibrary.MyInterpolator;
 import com.nineoldandroids.animation.AnimatorSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,9 +104,9 @@ public class MainActivity extends ActionBarActivity {
         circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List list = movePath.getCircleData(circle, new float[]{50, 50});
-                moveAnimation.setTranslation(circle,(List)list.get(0),(List)list.get(1),1000).start();
-
+                List list = movePath.getCircleData(circle, new float[]{100, 100});
+                (moveAnimation.setTranslation(circle,(List)list.get(0),(List)list.get(1),1000,//
+                new MyInterpolator.SlowQuickSlowInterpolator())).start();
             }
         });
 
