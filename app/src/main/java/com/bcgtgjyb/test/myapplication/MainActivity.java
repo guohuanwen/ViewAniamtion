@@ -105,8 +105,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 List list = movePath.getCircleData(circle, new float[]{100, 100});
-                (moveAnimation.setTranslation(circle,(List)list.get(0),(List)list.get(1),1000,//
-                new MyInterpolator.SlowQuickSlowInterpolator())).start();
+                moveAnimation.setTranslation(circle,(List)list.get(0),(List)list.get(1),2000,//
+                       new MyInterpolator(MyInterpolator.InterpolatorType.SlowQuickSlow) ).start();
             }
         });
 

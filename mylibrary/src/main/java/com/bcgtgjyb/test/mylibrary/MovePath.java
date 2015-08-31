@@ -423,7 +423,6 @@ public class MovePath {
 
 
     //传入圆心坐标
-
     /**
      *get the coordinate of animation on a circle
      * @param view set your view
