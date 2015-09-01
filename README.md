@@ -22,14 +22,14 @@ public float setMy(float param) {
 float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,1},new int[]{1,0},param);  
 return y;  
 }  
-![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/two.jpg)
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/twoLine.jpg)
   
 ####Code test2:  
 public float setMy(float param) {  
 float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,0.8,1},new int[]{0,1,0},param);  
 return y;  
 }  
-![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/three.jpg)  
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/threeLine.jpg)  
   
   
   
