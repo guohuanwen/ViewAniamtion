@@ -16,14 +16,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="MyInterpolator" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c26cd003-7767-42be-9e88-a1769d90f74d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/InterpolatorInterface.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java" />
-      <change type="MOVED" beforePath="C:\android\GitHub\MoveButton\mylibrary\src\main\java\com\bcgtgjyb\test\mylibrary\MyInterpolator.java" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/BezierInterpolatorData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java" afterPath="$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="c26cd003-7767-42be-9e88-a1769d90f74d" name="Default" comment="" />
     <ignored path="MoveButton.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
