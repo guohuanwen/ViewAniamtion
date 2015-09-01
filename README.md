@@ -9,8 +9,30 @@ i did not finish it at this time<br>
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)<br>
 <br>
 <br>
-
-
+##Interpolator  
+  
+####Direction
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/direction.jpg)  
+  
+####Rate
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/rate.jpg)  
+  
+####Code test1:  
+public float setMy(float param) {  
+float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,1},new int[]{1,0},param);  
+return y;  
+}  
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/two.jpg)
+  
+####Code test2:  
+public float setMy(float param) {  
+float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,0.8,1},new int[]{0,1,0},param);  
+return y;  
+}  
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/three.jpg)  
+  
+  
+  
 ##Usage
 <br>
 ####cope mylibrary to your project
