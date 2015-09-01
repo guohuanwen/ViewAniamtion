@@ -1,54 +1,21 @@
-package com.bcgtgjyb.test.mylibrary;
+package com.bcgtgjyb.test.mylibrary.Interpolator;
 
-import android.animation.TimeInterpolator;
 import android.util.Log;
-import android.view.animation.Interpolator;
 
 /**
- * Created by huanwen on 2015/8/30.
+ * Created by huanwen on 2015/9/1.
  */
-public class MyInterpolator implements Interpolator{
-private final String TAG="MyInterpolator";
-    private InterpolatorType myType;
-    private float[] coordinate;
-    public MyInterpolator(){
+public class BezierInterpolatorData {
+    private final String TAG="BezierInterpolatorData";
 
-    }
-    public MyInterpolator(InterpolatorType myType){
-        this.myType=myType;
-    }
-
-    public InterpolatorType getEnum(){
-       return this.myType;
-    }
-
-    public static enum InterpolatorType{
-        SlowQuickSlow,QuickSlow
-    }
-
-    public void setCoordinate(float[] param){
-        coordinate=param;
-    }
-
-    @Override
-    public float getInterpolation(float input) {
-        float pi=(float)Math.PI;
-        float myReturn=input;
-        switch (myType.ordinal()){
-            case 0:
-                myReturn=getData(new float[]{0,1,0},new int[]{1,0},input);
-                break;
-            case 1:
-                float x=input;
-                myReturn=(float)Math.sin(0.5*pi*x);
-                break;
-            default:
-                break;
-        }
-        return myReturn;
-    }
-
-    private  float getData(float[] param,int[] direction,float x){
+    /**
+     * use the default rate of change (rate=3)
+     * @param param （all number must be in 0-1）
+     * @param direction 0 is slow,1 is quick,direction.length=param.length
+     * @param x coordinate of x
+     * @return coordinate of y
+     */
+    public  float bezierDataWithoutRate(float[] param,int[] direction,float x){
         int number=direction.length;
         float [] changeRate=new float[number];
         int i=0;
@@ -56,10 +23,18 @@ private final String TAG="MyInterpolator";
             changeRate[i]=3;
             i++;
         }
-        return getData(param,direction,changeRate,x);
+        return bezierData(param,direction,changeRate,x);
     }
 
-    private float getData(float[] param,int[] direction,float[]changeRate,float x){
+    /**
+     *
+     * @param param （all number must be in 0-1）
+     * @param direction 0 is slow,1 is quick,direction.length=param.length
+     * @param changeRate rate of change (all number must be in 0-5)
+     * @param x coordinate of x
+     * @return coordinate of y
+     */
+    public float bezierData(float[] param,int[] direction,float[]changeRate,float x){
         int i=1;
         float small=0;
         float big=0;
@@ -75,19 +50,31 @@ private final String TAG="MyInterpolator";
                 break;
             }
         }
-        Log.i(TAG, "getData small big  "+ small+"   "+big + "  "+x);
-       return getBezierData(small,big,changeRate[i-1],direction[i-1],x);
+        Log.i(TAG, "getData small big  " + small + "   " + big + "  " + x);
+        return getBezierData(small,big,changeRate[i-1],direction[i-1],x);
     }
 
+
+    //本类中只使用y=x上的点，如需其他点，请自定义
     private float getBezierData(float x0,float x1,float changeRate,int direction,float x){
         return getBezierCurve(new float[]{x0,x0},new float[]{x1,x1},changeRate,direction,x);
     }
+
     //任意两点(x0,y0)(x1,y1)及(x0,y1)做贝塞尔曲线，
     // 传入两点坐标，
     // 所需点的x坐标，
     //变化率 1-5之间
     //弯曲方向  0为向上弯曲，1向下弯曲
     // 返回所需点的y坐标
+    /**
+     *
+     * @param param0 start coordinate
+     * @param param1 end coordinate
+     * @param changeRate rate of change (all number must be in 1-5)
+     * @param direction 0 is slow,1 is quick
+     * @param x coordinate of x
+     * @return coordinate of y
+     */
     private float getBezierCurve(float param0[],float param1[],float changeRate,int direction,float x){
         float x0=param0[0];
         float y0=param0[1];
@@ -103,14 +90,12 @@ private final String TAG="MyInterpolator";
         changeRate=changeRate>5?5:changeRate;
         changeRate=changeRate<0?0:changeRate;
         if(direction==0){
-            x1=(x2-xx0)/2-changeRate*dd;
-//            y1=(x1*yy0 - x1*yy2 + xx0*yy2 - xx2*yy0)/(xx0 - xx2);
+            x1=(x2-xx0)/2-changeRate*dd+x0;
         }else{
-            x1=(x2-xx0)/2+changeRate*dd;
-//            y1=(x1*y0 - x1*y2 + x0*y2 - x2*y0)/(x0 - x2);
+            x1=(x2-xx0)/2+changeRate*dd+x0;
         }
         y1=(x1*yy0 - x1*yy2 + xx0*yy2 - xx2*yy0)/(xx0 - xx2);
-        Log.i(TAG, "getBezierCurve x y" + x1+"  "+y1);
+//        Log.i(TAG, "getBezierCurve x y" + x1+"  "+y1);
 
         float t=0;
         t=(float)(x0 - x1 + Math.sqrt(x1 * x1 - 2. * x * x1 + x * x0 + x * x2 - x0 * x2))/(x0 - 2*x1 + x2);
@@ -119,5 +104,4 @@ private final String TAG="MyInterpolator";
 //        Log.i(TAG, "getBezierCurve y  "+y);
         return y;
     }
-
 }

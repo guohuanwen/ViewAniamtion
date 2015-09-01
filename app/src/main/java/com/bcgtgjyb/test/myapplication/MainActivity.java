@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+
+import com.bcgtgjyb.test.mylibrary.Interpolator.BezierInterpolatorData;
+import com.bcgtgjyb.test.mylibrary.Interpolator.InterpolatorInterface;
 import com.bcgtgjyb.test.mylibrary.MovePath;
 import com.bcgtgjyb.test.mylibrary.MyAnimation;
-import com.bcgtgjyb.test.mylibrary.MyInterpolator;
+import com.bcgtgjyb.test.mylibrary.Interpolator.MyInterpolator;
 import com.nineoldandroids.animation.AnimatorSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,7 +106,13 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 List list = movePath.getCircleData(circle, new float[]{100, 100});
                 moveAnimation.setTranslation(circle,(List)list.get(0),(List)list.get(1),2000,//
-                       new MyInterpolator(MyInterpolator.InterpolatorType.SlowQuickSlow) ).start();
+                       new MyInterpolator(new InterpolatorInterface() {
+                           @Override
+                           public float setMy(float param) {
+                               float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,1},new int[]{0},param);
+                               return y;
+                           }
+                       }) ).start();
             }
         });
 

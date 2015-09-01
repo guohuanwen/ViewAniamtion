@@ -17,10 +17,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c26cd003-7767-42be-9e88-a1769d90f74d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/InterpolatorInterface.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java" />
+      <change type="MOVED" beforePath="C:\android\GitHub\MoveButton\mylibrary\src\main\java\com\bcgtgjyb\test\mylibrary\MyInterpolator.java" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/BezierInterpolatorData.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java" afterPath="$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MovePath.java" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MovePath.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java" afterPath="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MoveButton.iws" />
@@ -65,30 +66,46 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="107" column="89" selection-start-line="107" selection-start-column="89" selection-end-line="107" selection-end-column="89" />
+              <caret line="110" column="60" selection-start-line="110" selection-start-column="60" selection-end-line="110" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4081#4476#0" expanded="true" />
-                <element signature="e#4475#4476#0" expanded="true" />
+                <element signature="e#4380#4730#0" expanded="true" />
+                <element signature="e#4729#4730#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyInterpolator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java">
+      <file leaf-file-name="MyInterpolator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.68359375">
-              <caret line="58" column="53" selection-start-line="58" selection-start-column="53" selection-end-line="58" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#446#447#0" expanded="true" />
-                <element signature="e#480#481#0" expanded="true" />
-                <element signature="e#520#521#0" expanded="true" />
-                <element signature="e#553#554#0" expanded="true" />
-                <element signature="e#680#681#0" expanded="true" />
-                <element signature="e#712#713#0" expanded="true" />
+                <element signature="e#503#504#0" expanded="true" />
+                <element signature="e#527#528#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BezierInterpolatorData.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/BezierInterpolatorData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.45251396">
+              <caret line="87" column="21" selection-start-line="87" selection-start-column="21" selection-end-line="87" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="InterpolatorInterface.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/InterpolatorInterface.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -97,8 +114,10 @@
         <entry file="file://$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-              <folding />
+              <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2310,8 +2329,12 @@
         <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/SlowQuickSlowInterpolator.java" />
         <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MovePath.java" />
         <option value="$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" />
+        <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/InterpolatorInterface.java" />
         <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java" />
+        <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/BezierInterpolatorData.java" />
+        <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java" />
+        <option value="$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/BezierInterpolatorData.java" />
       </list>
     </option>
   </component>
@@ -2363,8 +2386,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2399,6 +2420,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2417,127 +2441,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MoveButton" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="androidTest" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mylibrary" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2799,7 +2704,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43432575" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924694" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4921191" sideWeight="0.49695587" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4921191" sideWeight="0.49695587" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24048707" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -2882,27 +2787,75 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+          <caret line="107" column="89" selection-start-line="107" selection-start-column="89" selection-end-line="107" selection-end-column="89" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4081#4476#0" expanded="true" />
-            <element signature="e#4475#4476#0" expanded="true" />
+            <element signature="e#4380#4730#0" expanded="true" />
+            <element signature="e#4729#4730#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java">
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#446#447#0" expanded="true" />
-            <element signature="e#480#481#0" expanded="true" />
-            <element signature="e#520#521#0" expanded="true" />
-            <element signature="e#553#554#0" expanded="true" />
-            <element signature="e#680#681#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
+            <element signature="e#503#504#0" expanded="true" />
+            <element signature="e#527#528#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/InterpolatorInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyAnimation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="161" column="33" selection-start-line="161" selection-start-column="33" selection-end-line="161" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4380#4730#0" expanded="true" />
+            <element signature="e#4729#4730#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#503#504#0" expanded="true" />
+            <element signature="e#527#528#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2911,7 +2864,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="59" selection-start-line="23" selection-start-column="59" selection-end-line="23" selection-end-column="59" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2953,7 +2905,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="189" column="0" selection-start-line="189" selection-start-column="0" selection-end-line="189" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2961,7 +2912,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.94921875">
           <caret line="21" column="53" selection-start-line="21" selection-start-column="53" selection-end-line="21" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2976,8 +2926,10 @@
     <entry file="file://$PROJECT_DIR$/mylibrary/src/androidTest/java/com/bcgtgjyb/test/mylibrary/ApplicationTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-          <folding />
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2991,31 +2943,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/InterpolatorInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/ListtenerView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3519553">
+          <caret line="7" column="32" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/bcgtgjyb/test/myapplication/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="107" column="89" selection-start-line="107" selection-start-column="89" selection-end-line="107" selection-end-column="89" />
+          <caret line="110" column="60" selection-start-line="110" selection-start-column="60" selection-end-line="110" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#4081#4476#0" expanded="true" />
-            <element signature="e#4475#4476#0" expanded="true" />
+            <element signature="e#4380#4730#0" expanded="true" />
+            <element signature="e#4729#4730#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/MyInterpolator.java">
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/MyInterpolator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68359375">
-          <caret line="58" column="53" selection-start-line="58" selection-start-column="53" selection-end-line="58" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="15" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#446#447#0" expanded="true" />
-            <element signature="e#480#481#0" expanded="true" />
-            <element signature="e#520#521#0" expanded="true" />
-            <element signature="e#553#554#0" expanded="true" />
-            <element signature="e#680#681#0" expanded="true" />
-            <element signature="e#712#713#0" expanded="true" />
+            <element signature="e#503#504#0" expanded="true" />
+            <element signature="e#527#528#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mylibrary/src/main/java/com/bcgtgjyb/test/mylibrary/Interpolator/BezierInterpolatorData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45251396">
+          <caret line="87" column="21" selection-start-line="87" selection-start-column="21" selection-end-line="87" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
