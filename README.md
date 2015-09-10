@@ -1,3 +1,5 @@
+[![Android Gems](http://www.android-gems.com/badge/guohuanwen/ViewAniamtion.svg?branch=master)](http://www.android-gems.com/lib/guohuanwen/ViewAniamtion)
+
 # ViewAnimation
 <br>
 This is a library of the AnimatorSet,it has three move path and many animation,you can make a easy animation of view by youself.
