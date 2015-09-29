@@ -10,6 +10,14 @@ i did not finish it at this time<br>
 ##Demo
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)<br>
 <br>
+  
+##MovePath  
+任意圆弧运动  
+Any circular motion  
+List list=movePath.getCurveData(new float[]{200, 200}, 40, 1);  
+第一个参数：结束点坐标；第二个参数：曲率半径；第三个参数：弯曲方向  
+first param:end coordinate;second param：Radius of curvature；third param：curve direction  
+
 <br>
 ##Interpolator  
   
