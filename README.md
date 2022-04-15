@@ -1,40 +1,38 @@
 [![Android Gems](http://www.android-gems.com/badge/guohuanwen/ViewAniamtion.svg?branch=master)](http://www.android-gems.com/lib/guohuanwen/ViewAniamtion)
 
 # ViewAnimation
-<br>
 This is a library of the AnimatorSet,it has three move path and many animation,you can make a easy animation of view by youself.
-<br>
-##animation of View<br>
-i did not finish it at this time<br>
-<br>
-##Demo
-![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)<br>
-<br>
-  
-##MovePath  
+
+## animation of View  
+i did not finish it at this time 
+
+## Demo. 
+![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/AnimationGif.gif)   
+
+
+## MovePath  
 任意圆弧运动  
 Any circular motion  
 List list=movePath.getCurveData(new float[]{200, 200}, 40, 1);  
 第一个参数：结束点坐标；第二个参数：曲率半径；第三个参数：弯曲方向  
 first param:end coordinate;second param：Radius of curvature；third param：curve direction  
 
-<br>
-##Interpolator  
+## Interpolator  
   
-####Direction
+#### Direction
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/direction.jpg)  
   
-####Rate
+#### Rate
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/rate.jpg)  
   
-####Code test1:  
+#### Code test1:  
 public float setMy(float param) {  
 float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,1},new int[]{1,0},param);  
 return y;  
 }  
 ![](https://github.com/guohuanwen/ViewAniamtion/blob/master/sreenshots/twoLine.jpg)
   
-####Code test2:  
+#### Code test2:  
 public float setMy(float param) {  
 float y=new BezierInterpolatorData().bezierDataWithoutRate(new float[]{0,0.5,0.8,1},new int[]{0,1,0},param);  
 return y;  
@@ -43,27 +41,24 @@ return y;
   
   
   
-##Usage
-<br>
-####cope mylibrary to your project
-<br>
-###methd
-####MyAnimation 
-#####setScaleX
-#####setScaleY
-#####setRotation
-#####setRotationX
-#####setRotationY
-#####setAlpha
-#####setTranslation
-<br>
-<br>
-####MovePath 
-#####getRandomData
-#####getCurveData
-#####getCirlcrData
+## Usage 
+#### cope mylibrary to your project
+### methd
+#### MyAnimation 
+##### setScaleX
+##### setScaleY
+##### setRotation
+##### setRotationX
+##### setRotationY
+##### setAlpha
+##### setTranslation  
 
-##dont move animation(button is your view)
+#### MovePath 
+##### getRandomData
+##### getCurveData
+##### getCirlcrData
+
+### dont move animation(button is your view)
 
     AnimatorSet animatorSet=new AnimatorSet();
     MyAnimation myAnimation=new MyAnimation();
@@ -74,7 +69,7 @@ return y;
     animatorSet.playTogether(list);
     animatorSet.start();
 
-##move view
+### move view
     AnimatorSet animatorSet=new AnimatorSet();
     MyAnimation myAnimation=new MyAnimation();
     MovePath movePath=new MovePath();
@@ -96,7 +91,7 @@ return y;
 
 
 
-##License
+## License
     Copyright 2014 guohuanwen
 
     Licensed under the Apache License, Version 2.0 (the "License");
